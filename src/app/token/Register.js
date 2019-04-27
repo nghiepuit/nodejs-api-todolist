@@ -1,29 +1,33 @@
+/**
+ * this file will hold all the get use-case for user domain
+ */
 const Operation = require("src/app/Operation");
 const User = require("src/domain/user/User");
 
-class CreateUser extends Operation {
+class Register extends Operation {
   constructor({ usersRepository }) {
     super();
     this.usersRepository = usersRepository;
   }
 
-  async execute(userData) {
+  async execute(email, password) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.outputs;
-    const user = new User(userData);
+    const user = new User({
+      email,
+      password
+    });
     try {
-      const newUser = await this.usersRepository.add(user);
-
-      this.emit(SUCCESS, newUser);
+      const newUser = await this.usersRepository.register(user);
+      this.emit(SUCCESS, newUser.id);
     } catch (error) {
       if (error.message === "ValidationError") {
         return this.emit(VALIDATION_ERROR, error);
       }
-
       this.emit(ERROR, error);
     }
   }
 }
 
-CreateUser.setOutputs(["SUCCESS", "ERROR", "VALIDATION_ERROR"]);
+Register.setOutputs(["SUCCESS", "ERROR", "VALIDATION_ERROR"]);
 
-module.exports = CreateUser;
+module.exports = Register;

@@ -1,4 +1,4 @@
-const User = require('src/domain/user/User');
+const User = require("src/domain/user/User");
 
 const SequelizeUserMapper = {
   toEntity({ dataValues }) {
@@ -9,7 +9,6 @@ const SequelizeUserMapper = {
       middleName,
       email,
       password,
-      roleId,
       isDeleted,
       createdBy
     } = dataValues;
@@ -21,15 +20,14 @@ const SequelizeUserMapper = {
       middleName,
       email,
       password,
-      roleId,
       isDeleted,
       createdBy
     });
   },
 
   toDatabase(survivor) {
-    const { email } = survivor;
-    return { email };
+    const { email, password } = survivor;
+    return { email, password };
   }
 };
 

@@ -10,10 +10,6 @@
   "scripts": {
     "dev": "cross-env NODE_PATH=. NODE_ENV=development nodemon",
     "start": "cross-env NODE_PATH=. NODE_ENV=development nodemon",
-    "test": "npm run test:all",
-    "test:all": "npm run test:unit && npm run test:features",
-    "test:unit": "cross-env NODE_PATH=. NODE_ENV=test mocha --opts test/mocha.opts.unit",
-    "test:features": "cross-env NODE_PATH=. NODE_ENV=test mocha --opts test/mocha.opts.features",
     "coverage": "cross-env NODE_PATH=. NODE_ENV=test nyc mocha --opts test/mocha.opts.unit",
     "lint": "eslint {src,test,config}/**/*.js",
     "sequelize": "cross-env NODE_PATH=. sequelize",

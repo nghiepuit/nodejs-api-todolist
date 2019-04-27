@@ -1,5 +1,5 @@
-const passport = require('passport');
-const { ExtractJwt, Strategy } = require('passport-jwt');
+const passport = require("passport");
+const { ExtractJwt, Strategy } = require("passport-jwt");
 /**
  * middleware to check the if auth vaid
  */
@@ -34,7 +34,7 @@ module.exports = ({ config, usersRepository }) => {
       return passport.initialize();
     },
     authenticate: () => {
-      return passport.authenticate('jwt');
+      return passport.authenticate("jwt");
     }
   };
 };

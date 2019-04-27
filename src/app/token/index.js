@@ -1,5 +1,4 @@
-const PostToken = require('./PostToken');
-
 module.exports = {
-  PostToken
+  PostToken: require("./PostToken"),
+  Register: require("./Register")
 };

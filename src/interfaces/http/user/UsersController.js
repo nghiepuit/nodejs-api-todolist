@@ -1,18 +1,18 @@
-const { Router } = require('express');
-const { inject } = require('awilix-express');
-const Status = require('http-status');
+const { Router } = require("express");
+const { inject } = require("awilix-express");
+const Status = require("http-status");
 
 const UsersController = {
   get router() {
     const router = Router();
 
-    router.use(inject('userSerializer'));
+    router.use(inject("userSerializer"));
 
-    router.get('/', inject('getAllUsers'), this.index);
-    router.get('/:id', inject('getUser'), this.show);
-    router.post('/', inject('createUser'), this.create);
-    router.put('/:id', inject('updateUser'), this.update);
-    router.delete('/:id', inject('deleteUser'), this.delete);
+    router.get("/", inject("getAllUsers"), this.index);
+    router.get("/:id", inject("getUser"), this.show);
+    router.post("/", inject("createUser"), this.create);
+    router.put("/:id", inject("updateUser"), this.update);
+    router.delete("/:id", inject("deleteUser"), this.delete);
 
     return router;
   },
@@ -23,7 +23,6 @@ const UsersController = {
 
     getAllUsers
       .on(SUCCESS, users => {
-        console.log('users: ', users);
         res.status(Status.OK).json(users.map(userSerializer.serialize));
       })
       .on(ERROR, next);
@@ -42,7 +41,7 @@ const UsersController = {
       })
       .on(NOT_FOUND, error => {
         res.status(Status.NOT_FOUND).json({
-          type: 'NotFoundError',
+          type: "NotFoundError",
           details: error.details
         });
       })
@@ -61,7 +60,7 @@ const UsersController = {
       })
       .on(VALIDATION_ERROR, error => {
         res.status(Status.BAD_REQUEST).json({
-          type: 'ValidationError',
+          type: "ValidationError",
           details: error.details
         });
       })
@@ -80,13 +79,13 @@ const UsersController = {
       })
       .on(VALIDATION_ERROR, error => {
         res.status(Status.BAD_REQUEST).json({
-          type: 'ValidationError',
+          type: "ValidationError",
           details: error.details
         });
       })
       .on(NOT_FOUND, error => {
         res.status(Status.NOT_FOUND).json({
-          type: 'NotFoundError',
+          type: "NotFoundError",
           details: error.details
         });
       })
@@ -105,7 +104,7 @@ const UsersController = {
       })
       .on(NOT_FOUND, error => {
         res.status(Status.NOT_FOUND).json({
-          type: 'NotFoundError',
+          type: "NotFoundError",
           details: error.details
         });
       })

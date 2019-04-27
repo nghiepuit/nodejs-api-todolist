@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('users', {
+    return queryInterface.createTable("users", {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -26,9 +26,6 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
         allowNull: false
-      },
-      roleId: {
-        type: Sequelize.INTEGER
       },
       verificationCode: {
         type: Sequelize.STRING,
@@ -61,6 +58,6 @@ module.exports = {
     });
   },
   down: function(queryInterface) {
-    return queryInterface.dropTable('users');
+    return queryInterface.dropTable("users");
   }
 };

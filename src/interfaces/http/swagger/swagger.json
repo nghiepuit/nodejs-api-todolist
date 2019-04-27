@@ -14,7 +14,7 @@
     "/users": {
       "get": {
         "operationId": "listUsers",
-        "tags": [ "Users" ],
+        "tags": ["Users"],
         "responses": {
           "200": {
             "description": "List of all users",
@@ -33,7 +33,7 @@
       },
       "post": {
         "operationId": "createUser",
-        "tags": [ "Users" ],
+        "tags": ["Users"],
         "requestBody": {
           "description": "User data",
           "required": true,
@@ -72,7 +72,7 @@
     "/users/{id}": {
       "get": {
         "operationId": "showUser",
-        "tags": [ "Users" ],
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "id",
@@ -108,7 +108,7 @@
       },
       "put": {
         "operationId": "updateUser",
-        "tags": [ "Users" ],
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "id",
@@ -155,7 +155,7 @@
       },
       "delete": {
         "operationId": "deleteUser",
-        "tags": [ "Users" ],
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "id",
@@ -190,7 +190,7 @@
         "allOf": [
           { "$ref": "#/components/schemas/NewUser" },
           {
-            "required": [ "id" ],
+            "required": ["id"],
             "properties": {
               "id": {
                 "type": "integer",
@@ -201,7 +201,7 @@
         ]
       },
       "NewUser": {
-        "required": [ "name" ],
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string"
@@ -212,7 +212,7 @@
         "properties": {
           "type": {
             "type": "string",
-            "enum": [ "ValidationError" ]
+            "enum": ["ValidationError"]
           },
           "details": {
             "type": "array",
@@ -236,11 +236,11 @@
         "properties": {
           "type": {
             "type": "string",
-            "enum": [ "NotFoundError" ]
+            "enum": ["NotFoundError"]
           },
           "details": {
             "type": "string",
-            "enum": [ "User with id {id} not found" ]
+            "enum": ["User with id {id} not found"]
           }
         }
       }

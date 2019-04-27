@@ -1,33 +1,35 @@
-const { createContainer, asClass, asFunction, asValue } = require('awilix');
-const { scopePerRequest } = require('awilix-express');
+const { createContainer, asClass, asFunction, asValue } = require("awilix");
+const { scopePerRequest } = require("awilix-express");
 
-const config = require('../config');
-const Application = require('./app/Application');
+const config = require("../config");
+const Application = require("./app/Application");
 const {
   CreateUser,
   GetAllUsers,
   GetUser,
   UpdateUser,
   DeleteUser
-} = require('./app/user');
-const { PostToken } = require('./app/token');
+} = require("./app/user");
 
-const UserSerializer = require('./interfaces/http/user/UserSerializer');
+const { PostToken, Register } = require("./app/token");
 
-const Server = require('./interfaces/http/Server');
-const router = require('./interfaces/http/router');
-const auth = require('./interfaces/http/auth');
+const UserSerializer = require("./interfaces/http/user/UserSerializer");
 
-const loggerMiddleware = require('./interfaces/http/logging/loggerMiddleware');
-const errorHandler = require('./interfaces/http/errors/errorHandler');
-const devErrorHandler = require('./interfaces/http/errors/devErrorHandler');
-const swaggerMiddleware = require('./interfaces/http/swagger/swaggerMiddleware');
+const Server = require("./interfaces/http/Server");
+const router = require("./interfaces/http/router");
+const auth = require("./interfaces/http/auth");
 
-const logger = require('./infra/logging/logger');
-const SequelizeUsersRepository = require('./infra/user/SequelizeUsersRepository');
-const jwt = require('./infra/jwt');
+const loggerMiddleware = require("./interfaces/http/logging/loggerMiddleware");
+const errorHandler = require("./interfaces/http/errors/errorHandler");
+const devErrorHandler = require("./interfaces/http/errors/devErrorHandler");
+const swaggerMiddleware = require("./interfaces/http/swagger/swaggerMiddleware");
 
-const { database, User: UserModel } = require('./infra/database/models');
+const encryption = require("./infra/encryption");
+const logger = require("./infra/logging/logger");
+const SequelizeUsersRepository = require("./infra/user/SequelizeUsersRepository");
+const jwt = require("./infra/jwt");
+
+const { database, user: UserModel } = require("./infra/database/models");
 
 const container = createContainer();
 
@@ -44,7 +46,8 @@ container
     logger: asFunction(logger).singleton()
   })
   .register({
-    config: asValue(config)
+    config: asValue(config),
+    encryption: asValue(encryption)
   });
 
 // Middlewares
@@ -78,7 +81,8 @@ container.register({
   updateUser: asClass(UpdateUser),
   deleteUser: asClass(DeleteUser),
   // token
-  postToken: asClass(PostToken)
+  postToken: asClass(PostToken),
+  register: asClass(Register)
 });
 
 // Serializers

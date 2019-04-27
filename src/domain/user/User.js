@@ -1,7 +1,7 @@
-const { attributes } = require('structure');
+const { attributes } = require("structure");
 
 const User = attributes({
-  id: Number,
+  id: String,
   firstName: String,
   lastName: String,
   middleName: String,
@@ -10,7 +10,6 @@ const User = attributes({
     required: true
   },
   password: String,
-  roleId: Number,
   verificationCode: String,
   isVerified: Number,
   isDeleted: Number,
@@ -18,13 +17,13 @@ const User = attributes({
   updatedBy: String,
   createdAt: Date,
   updatedAt: Date
-})(class User {
-
-  // isLegal() {
-  //   return this.age >= User.MIN_LEGAL_AGE;
-  // }
-
-});
+})(
+  class User {
+    // isLegal() {
+    //   return this.age >= User.MIN_LEGAL_AGE;
+    // }
+  }
+);
 
 // User.MIN_LEGAL_AGE = 21;
 

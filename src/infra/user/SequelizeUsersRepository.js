@@ -1,5 +1,5 @@
-const UserMapper = require('./SequelizeUserMapper');
-const { comparePassword } = require('../encryption');
+const UserMapper = require("./SequelizeUserMapper");
+const { comparePassword } = require("../encryption");
 
 class SequelizeUsersRepository {
   constructor({ UserModel }) {
@@ -8,7 +8,10 @@ class SequelizeUsersRepository {
 
   async findOne(...args) {
     const user = await this.UserModel.findOne(...args);
-    const entity = UserMapper.toEntity(user);
+    let entity = null;
+    if (user) {
+      entity = UserMapper.toEntity(user);
+    }
     return entity;
   }
 
@@ -24,11 +27,24 @@ class SequelizeUsersRepository {
     return UserMapper.toEntity(user);
   }
 
+  async register(user) {
+    const { valid, errors } = user.validate();
+
+    if (!valid) {
+      const error = new Error("ValidationError");
+      error.details = errors;
+      throw error;
+    }
+
+    const newUser = await this.UserModel.create(UserMapper.toDatabase(user));
+    return UserMapper.toEntity(newUser);
+  }
+
   async add(user) {
     const { valid, errors } = user.validate();
 
     if (!valid) {
-      const error = new Error('ValidationError');
+      const error = new Error("ValidationError");
       error.details = errors;
 
       throw error;
@@ -57,7 +73,7 @@ class SequelizeUsersRepository {
       const { valid, errors } = userEntity.validate();
 
       if (!valid) {
-        const error = new Error('ValidationError');
+        const error = new Error("ValidationError");
         error.details = errors;
 
         throw error;
@@ -83,8 +99,8 @@ class SequelizeUsersRepository {
     try {
       return await this.UserModel.findById(id, { rejectOnEmpty: true });
     } catch (error) {
-      if (error.name === 'SequelizeEmptyResultError') {
-        const notFoundError = new Error('NotFoundError');
+      if (error.name === "SequelizeEmptyResultError") {
+        const notFoundError = new Error("NotFoundError");
         notFoundError.details = `User with id ${id} can't be found.`;
 
         throw notFoundError;

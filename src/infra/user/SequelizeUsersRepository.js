@@ -1,8 +1,15 @@
 const UserMapper = require('./SequelizeUserMapper');
+const { comparePassword } = require('../encryption');
 
 class SequelizeUsersRepository {
   constructor({ UserModel }) {
     this.UserModel = UserModel;
+  }
+
+  async findOne(...args) {
+    const user = await this.UserModel.findOne(...args);
+    const entity = UserMapper.toEntity(user);
+    return entity;
   }
 
   async getAll(...args) {
@@ -20,7 +27,7 @@ class SequelizeUsersRepository {
   async add(user) {
     const { valid, errors } = user.validate();
 
-    if(!valid) {
+    if (!valid) {
       const error = new Error('ValidationError');
       error.details = errors;
 
@@ -49,7 +56,7 @@ class SequelizeUsersRepository {
 
       const { valid, errors } = userEntity.validate();
 
-      if(!valid) {
+      if (!valid) {
         const error = new Error('ValidationError');
         error.details = errors;
 
@@ -59,7 +66,7 @@ class SequelizeUsersRepository {
       await transaction.commit();
 
       return userEntity;
-    } catch(error) {
+    } catch (error) {
       await transaction.rollback();
 
       throw error;
@@ -75,8 +82,8 @@ class SequelizeUsersRepository {
   async _getById(id) {
     try {
       return await this.UserModel.findById(id, { rejectOnEmpty: true });
-    } catch(error) {
-      if(error.name === 'SequelizeEmptyResultError') {
+    } catch (error) {
+      if (error.name === 'SequelizeEmptyResultError') {
         const notFoundError = new Error('NotFoundError');
         notFoundError.details = `User with id ${id} can't be found.`;
 
@@ -85,6 +92,12 @@ class SequelizeUsersRepository {
 
       throw error;
     }
+  }
+
+  validatePassword(endcodedPassword) {
+    return password => {
+      return comparePassword(password, endcodedPassword);
+    };
   }
 }
 

@@ -10,11 +10,14 @@ const {
   UpdateUser,
   DeleteUser
 } = require('./app/user');
+const { PostToken } = require('./app/token');
 
 const UserSerializer = require('./interfaces/http/user/UserSerializer');
 
 const Server = require('./interfaces/http/Server');
 const router = require('./interfaces/http/router');
+const auth = require('./interfaces/http/auth');
+
 const loggerMiddleware = require('./interfaces/http/logging/loggerMiddleware');
 const errorHandler = require('./interfaces/http/errors/errorHandler');
 const devErrorHandler = require('./interfaces/http/errors/devErrorHandler');
@@ -22,6 +25,8 @@ const swaggerMiddleware = require('./interfaces/http/swagger/swaggerMiddleware')
 
 const logger = require('./infra/logging/logger');
 const SequelizeUsersRepository = require('./infra/user/SequelizeUsersRepository');
+const jwt = require('./infra/jwt');
+
 const { database, User: UserModel } = require('./infra/database/models');
 
 const container = createContainer();
@@ -34,6 +39,8 @@ container
   })
   .register({
     router: asFunction(router).singleton(),
+    auth: asFunction(auth).singleton(),
+    jwt: asFunction(jwt).singleton(),
     logger: asFunction(logger).singleton()
   })
   .register({
@@ -64,11 +71,14 @@ container.register({
 
 // Operations
 container.register({
+  // user
   createUser: asClass(CreateUser),
   getAllUsers: asClass(GetAllUsers),
   getUser: asClass(GetUser),
   updateUser: asClass(UpdateUser),
-  deleteUser: asClass(DeleteUser)
+  deleteUser: asClass(DeleteUser),
+  // token
+  postToken: asClass(PostToken)
 });
 
 // Serializers

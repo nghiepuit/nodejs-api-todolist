@@ -22,10 +22,9 @@ const UsersController = {
     const { SUCCESS, ERROR } = getAllUsers.outputs;
 
     getAllUsers
-      .on(SUCCESS, (users) => {
-        res
-          .status(Status.OK)
-          .json(users.map(userSerializer.serialize));
+      .on(SUCCESS, users => {
+        console.log('users: ', users);
+        res.status(Status.OK).json(users.map(userSerializer.serialize));
       })
       .on(ERROR, next);
 
@@ -38,12 +37,10 @@ const UsersController = {
     const { SUCCESS, ERROR, NOT_FOUND } = getUser.outputs;
 
     getUser
-      .on(SUCCESS, (user) => {
-        res
-          .status(Status.OK)
-          .json(userSerializer.serialize(user));
+      .on(SUCCESS, user => {
+        res.status(Status.OK).json(userSerializer.serialize(user));
       })
-      .on(NOT_FOUND, (error) => {
+      .on(NOT_FOUND, error => {
         res.status(Status.NOT_FOUND).json({
           type: 'NotFoundError',
           details: error.details
@@ -59,12 +56,10 @@ const UsersController = {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = createUser.outputs;
 
     createUser
-      .on(SUCCESS, (user) => {
-        res
-          .status(Status.CREATED)
-          .json(userSerializer.serialize(user));
+      .on(SUCCESS, user => {
+        res.status(Status.CREATED).json(userSerializer.serialize(user));
       })
-      .on(VALIDATION_ERROR, (error) => {
+      .on(VALIDATION_ERROR, error => {
         res.status(Status.BAD_REQUEST).json({
           type: 'ValidationError',
           details: error.details
@@ -80,18 +75,16 @@ const UsersController = {
     const { SUCCESS, ERROR, VALIDATION_ERROR, NOT_FOUND } = updateUser.outputs;
 
     updateUser
-      .on(SUCCESS, (user) => {
-        res
-          .status(Status.ACCEPTED)
-          .json(userSerializer.serialize(user));
+      .on(SUCCESS, user => {
+        res.status(Status.ACCEPTED).json(userSerializer.serialize(user));
       })
-      .on(VALIDATION_ERROR, (error) => {
+      .on(VALIDATION_ERROR, error => {
         res.status(Status.BAD_REQUEST).json({
           type: 'ValidationError',
           details: error.details
         });
       })
-      .on(NOT_FOUND, (error) => {
+      .on(NOT_FOUND, error => {
         res.status(Status.NOT_FOUND).json({
           type: 'NotFoundError',
           details: error.details
@@ -104,13 +97,13 @@ const UsersController = {
 
   delete(req, res, next) {
     const { deleteUser } = req;
-    const { SUCCESS, ERROR,  NOT_FOUND } = deleteUser.outputs;
+    const { SUCCESS, ERROR, NOT_FOUND } = deleteUser.outputs;
 
     deleteUser
       .on(SUCCESS, () => {
         res.status(Status.ACCEPTED).end();
       })
-      .on(NOT_FOUND, (error) => {
+      .on(NOT_FOUND, error => {
         res.status(Status.NOT_FOUND).json({
           type: 'NotFoundError',
           details: error.details

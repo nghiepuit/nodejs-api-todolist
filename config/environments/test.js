@@ -1,3 +1,4 @@
 module.exports = {
-  web: {}
+  web: {},
+  authSecret: process.env.SECRET
 };

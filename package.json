@@ -8,8 +8,8 @@
     "node": ">=7.6.0"
   },
   "scripts": {
-    "start": "node cluster.js",
     "dev": "cross-env NODE_PATH=. NODE_ENV=development nodemon",
+    "start": "cross-env NODE_PATH=. NODE_ENV=development nodemon",
     "test": "npm run test:all",
     "test:all": "npm run test:unit && npm run test:features",
     "test:unit": "cross-env NODE_PATH=. NODE_ENV=test mocha --opts test/mocha.opts.unit",
@@ -20,14 +20,17 @@
     "console": "cross-env NODE_PATH=. node src/interfaces/console/index.js",
     "heroku-postbuild": "NODE_ENV=production NODE_PATH=. sequelize db:migrate --url=$DATABASE_URL",
     "pm2": "pm2",
-    "cleanup": "node scripts/cleanup.js"
+    "cleanup": "node scripts/cleanup.js",
+    "db:refresh": "sequelize db:migrate:undo:all && sequelize db:migrate",
+    "db:seed": "cross-env NODE_ENV=development NODE_PATH=. sequelize db:seed:all --seeders-path=./src/infra/database/seeds"
   },
   "repository": {},
-  "author": "Talysson <talyssonoc@gmail.com>",
+  "author": "nghiepuit@gmail.com",
   "license": "MIT",
   "dependencies": {
     "awilix": "^3.0.9",
     "awilix-express": "^0.11.0",
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.17.1",
     "compression": "^1.6.2",
     "cors": "^2.8.1",
@@ -38,15 +41,21 @@
     "express": "^4.15.2",
     "express-status-monitor": "^0.1.9",
     "http-status": "^1.0.1",
+    "jsonwebtoken": "^8.5.1",
     "log4js": "^1.1.1",
     "method-override": "^2.3.7",
     "morgan": "^1.8.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
     "pg": "^6.1.3",
     "pm2": "^2.4.2",
+    "ramda": "^0.26.1",
     "sequelize": "^3.30.4",
     "sequelize-cli": "^3.0.0",
+    "sqlite3": "^4.0.6",
     "structure": "^1.2.0",
-    "swagger-ui-express": "^2.0.14"
+    "swagger-ui-express": "^2.0.14",
+    "tcomb": "^3.2.29"
   },
   "devDependencies": {
     "chai": "^4.1.2",

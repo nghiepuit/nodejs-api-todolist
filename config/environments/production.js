@@ -6,5 +6,6 @@ module.exports = {
     appenders: [
       { type: 'console', layout: { type: 'basic' } }
     ]
-  }
+  },
+  authSecret: process.env.SECRET
 };

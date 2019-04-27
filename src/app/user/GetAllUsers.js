@@ -11,7 +11,7 @@ class GetAllUsers extends Operation {
 
     try {
       const users = await this.usersRepository.getAll({
-        attributes: ['id', 'name']
+        attributes: ['id', 'email']
       });
 
       this.emit(SUCCESS, users);

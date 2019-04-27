@@ -1,6 +1,6 @@
 ## Create migrate :
 
-npx sequelize model:generate --name Category --attributes name:string
+npx sequelize model:generate --name category --attributes name:string
 
 ## Create seed data :
 

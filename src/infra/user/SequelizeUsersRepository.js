@@ -1,9 +1,11 @@
 const UserMapper = require("./SequelizeUserMapper");
 const { comparePassword } = require("../encryption");
+const container = require("src/container");
 
 class SequelizeUsersRepository {
-  constructor({ UserModel }) {
+  constructor({ UserModel, RoleModel }) {
     this.UserModel = UserModel;
+    this.RoleModel = RoleModel;
   }
 
   async findOne(...args) {
@@ -16,14 +18,25 @@ class SequelizeUsersRepository {
   }
 
   async getAll(...args) {
-    const users = await this.UserModel.findAll(...args);
-
+    const users = await this.UserModel.findAll(
+      ...args
+      // {
+      //   include: [
+      //     {
+      //       model: this.RoleModel,
+      //       as: "roles",
+      //       attributes: ["id", "name"],
+      //       through: {attributes: []} // prevent mapping
+      //     }
+      //   ],
+      //   nested: false
+      // }
+    );
     return users.map(UserMapper.toEntity);
   }
 
   async getById(id) {
     const user = await this._getById(id);
-
     return UserMapper.toEntity(user);
   }
 

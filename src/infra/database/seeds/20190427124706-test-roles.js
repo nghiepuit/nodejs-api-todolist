@@ -5,13 +5,19 @@ module.exports = {
     const data = [
       {
         id: 1,
-        name: "Manage Category",
+        name: "Super Admin",
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         id: 2,
-        name: "Manage User",
+        name: "Editor",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 3,
+        name: "HR",
         createdAt: new Date(),
         updatedAt: new Date()
       }

@@ -1,7 +1,7 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  var Role = sequelize.define(
-    "roles",
+  var permission = sequelize.define(
+    "permissions",
     {
       id: {
         allowNull: false,
@@ -25,20 +25,14 @@ module.exports = (sequelize, DataTypes) => {
       classMethods: {
         associate: function(models) {
           // associations can be defined here
-          // based on file name: user.js => model.user
-          Role.belongsToMany(models.user, {
-            through: "userRoles",
-            foreignKey: "roleId",
-            as: "users"
-          });
-          Role.belongsToMany(models.permission, {
+          permission.belongsToMany(models.role, {
             through: "rolePermissions",
-            foreignKey: "roleId",
-            as: "permissions"
+            foreignKey: "permissionId",
+            as: "roles"
           });
         }
       }
     }
   );
-  return Role;
+  return permission;
 };

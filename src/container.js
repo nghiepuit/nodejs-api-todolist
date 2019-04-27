@@ -29,7 +29,7 @@ const logger = require("./infra/logging/logger");
 const SequelizeUsersRepository = require("./infra/user/SequelizeUsersRepository");
 const jwt = require("./infra/jwt");
 
-const { database, user: UserModel } = require("./infra/database/models");
+const { database, user: UserModel, role: RoleModel, userrole: UserRoleModel } = require("./infra/database/models");
 
 const container = createContainer();
 
@@ -69,7 +69,9 @@ container.register({
 // Database
 container.register({
   database: asValue(database),
-  UserModel: asValue(UserModel)
+  UserModel: asValue(UserModel),
+  RoleModel: asValue(RoleModel),
+  UserRoleModel: asValue(UserRoleModel)
 });
 
 // Operations

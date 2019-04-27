@@ -6,10 +6,11 @@ const Token = require("src/domain/token");
 const Operation = require("src/app/Operation");
 
 class PostToken extends Operation {
-  constructor({ usersRepository, jwt }) {
+  constructor({ usersRepository, jwt, UserRoleModel }) {
     super();
     this.usersRepository = usersRepository;
     this.jwt = jwt;
+    this.UserRoleModel = UserRoleModel;
   }
 
   async execute(body) {

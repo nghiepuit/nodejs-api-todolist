@@ -1,8 +1,8 @@
 module.exports = {
-  // development: {
-  //   dialect: "sqlite",
-  //   storage: "./db.development.sqlite"
-  // },
+  development: {
+    dialect: "sqlite",
+    storage: "./db.development.sqlite"
+  },
   production: {
     url: process.env.DATABASE_URL,
     dialect: "mysql",

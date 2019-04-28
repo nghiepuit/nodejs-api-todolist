@@ -26,12 +26,12 @@ module.exports = (sequelize, DataTypes) => {
         associate: function(models) {
           // associations can be defined here
           // based on file name: user.js => model.user
-          Role.belongsToMany(models.user, {
+          models.role.belongsToMany(models.user, {
             through: "userRoles",
             foreignKey: "roleId",
             as: "users"
           });
-          Role.belongsToMany(models.permission, {
+          models.role.belongsToMany(models.permission, {
             through: "rolePermissions",
             foreignKey: "roleId",
             as: "permissions"

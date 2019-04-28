@@ -24,7 +24,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       classMethods: {
         associate: function(models) {
-          console.log("models: ", models);
           // associations can be defined here
           // based on file name: user.js => model.user
           Role.belongsToMany(models.user, {

@@ -16,7 +16,8 @@ const User = attributes({
   createdBy: String,
   updatedBy: String,
   createdAt: Date,
-  updatedAt: Date
+  updatedAt: Date,
+  roles: Array
 })(
   class User {
     // isLegal() {

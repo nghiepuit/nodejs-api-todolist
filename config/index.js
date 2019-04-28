@@ -8,11 +8,29 @@ const ENV = process.env.NODE_ENV || "development";
 const envConfig = require(path.join(__dirname, "environments", ENV));
 const dbConfig = loadDbConfig();
 
+const PERMISSIONS = {
+  MANAGE_USER: {
+    id: 1,
+    name: "MANAGE_USER"
+  },
+  MANAGE_PRODUCT: {
+    id: 2,
+    name: "MANAGE_PRODUCT"
+  },
+  MANAGE_CATEGORY: {
+    id: 3,
+    name: "MANAGE_CATEGORY"
+  }
+};
+const SUPER_ADMIN_ROLE = 1;
+
 const config = Object.assign(
   {
     [ENV]: true,
     env: ENV,
-    db: dbConfig
+    db: dbConfig,
+    permissions: PERMISSIONS,
+    isSuperAdmin: SUPER_ADMIN_ROLE
   },
   envConfig
 );

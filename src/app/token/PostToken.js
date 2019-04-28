@@ -22,25 +22,27 @@ class PostToken extends Operation {
     } = this.outputs;
     try {
       const credentials = Token(body);
-      const userCredentials = await this.usersRepository.findUserWithRolePermission({
-        attributes: [
-          "id",
-          "firstName",
-          "lastName",
-          "middleName",
-          "email",
-          "password",
-          "isDeleted",
-          "createdAt",
-          "updatedAt",
-          "createdBy",
-          "updatedBy"
-        ],
-        where: {
-          email: credentials.email,
-          isDeleted: 0
+      const userCredentials = await this.usersRepository.findUserWithRolePermission(
+        {
+          attributes: [
+            "id",
+            "firstName",
+            "lastName",
+            "middleName",
+            "email",
+            "password",
+            "isDeleted",
+            "createdAt",
+            "updatedAt",
+            "createdBy",
+            "updatedBy"
+          ],
+          where: {
+            email: credentials.email,
+            isDeleted: 0
+          }
         }
-      });
+      );
       if (!userCredentials) {
         return this.emit(EMAIL_NOT_EXIST);
       } else {
@@ -52,6 +54,7 @@ class PostToken extends Operation {
           return this.emit(WRONG_PASSWORD);
         }
         const signIn = this.jwt.signin();
+        const roles = this.toRoleEntity(userCredentials.roles);
         const data = {
           token: signIn({
             id: userCredentials.id,
@@ -60,7 +63,7 @@ class PostToken extends Operation {
             middleName: userCredentials.middleName,
             email: userCredentials.email,
             isDeleted: userCredentials.isDeleted,
-            roles: userCredentials.roles
+            roles
           })
         };
         this.emit(SUCCESS, {
@@ -72,7 +75,7 @@ class PostToken extends Operation {
             middleName: userCredentials.middleName,
             email: userCredentials.email,
             isDeleted: userCredentials.isDeleted,
-            roles: userCredentials.roles
+            roles
           }
         });
       }
@@ -82,6 +85,22 @@ class PostToken extends Operation {
       }
       this.emit(ERROR, error);
     }
+  }
+
+  toRoleEntity(roleInstances) {
+    const result = roleInstances.map(item => {
+      const { id, name, permissions } = item.dataValues;
+      return { id, name, permissions: this.toPermissionEntity(permissions) };
+    });
+    return result;
+  }
+
+  toPermissionEntity(permissionInstances) {
+    const result = permissionInstances.map(item => {
+      const { id, name } = item.dataValues;
+      return { id, name };
+    });
+    return result;
   }
 }
 

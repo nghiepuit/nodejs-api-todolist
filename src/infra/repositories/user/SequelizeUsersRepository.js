@@ -134,7 +134,25 @@ class SequelizeUsersRepository {
 
   async _getById(id) {
     try {
-      return await this.UserModel.findById(id, { rejectOnEmpty: true });
+      return await this.UserModel.findById(id, {
+        rejectOnEmpty: true,
+        include: [
+          {
+            model: this.RoleModel,
+            as: "roles",
+            attributes: ["id", "name"],
+            through: { attributes: [] }, // prevent mapping
+            include: [
+              {
+                model: this.PermissionModel,
+                as: "permissions",
+                attributes: ["id", "name"],
+                through: { attributes: [] } // prevent mapping
+              }
+            ]
+          }
+        ]
+      });
     } catch (error) {
       if (error.name === "SequelizeEmptyResultError") {
         const notFoundError = new Error("NotFoundError");
@@ -151,6 +169,43 @@ class SequelizeUsersRepository {
     return password => {
       return comparePassword(password, endcodedPassword);
     };
+  }
+
+  async checkHasPermissions(listPermission, currentUser) {
+    const permissionIds = listPermission.map(x => x.id);
+    const { id } = currentUser;
+    try {
+      return await this.UserModel.findById(id, {
+        rejectOnEmpty: true,
+        include: [
+          {
+            model: this.RoleModel,
+            as: "roles",
+            attributes: ["id", "name"],
+            through: { attributes: [] }, // prevent mapping
+            include: [
+              {
+                model: this.PermissionModel,
+                as: "permissions",
+                attributes: ["id", "name"],
+                through: { attributes: [] }, // prevent mapping
+                where: {
+                  id: permissionIds[0]
+                }
+              }
+            ]
+          }
+        ]
+      });
+    } catch (error) {
+      if (error.name === "SequelizeEmptyResultError") {
+        const notFoundError = new Error("NotFoundError");
+        notFoundError.details = `User with id ${id} can't be found.`;
+        throw notFoundError;
+      }
+
+      throw error;
+    }
   }
 }
 

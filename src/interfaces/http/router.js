@@ -49,7 +49,7 @@ module.exports = ({
   apiRouter.use("/auth", controller("token/TokenController"));
   apiRouter.use(
     "/users",
-    auth.authenticate(),
+    auth.hasPermissions([config.permissions.MANAGE_USER]),
     controller("user/UsersController")
   );
 

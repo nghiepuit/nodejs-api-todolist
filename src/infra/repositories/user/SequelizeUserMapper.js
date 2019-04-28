@@ -1,6 +1,7 @@
 const User = require("src/domain/user/User");
 
 const SequelizeUserMapper = {
+
   toEntity({ dataValues }) {
     const {
       id,
@@ -13,7 +14,8 @@ const SequelizeUserMapper = {
       createdBy,
       updatedBy,
       createdAt,
-      updatedAt
+      updatedAt,
+      roles
     } = dataValues;
 
     return new User({
@@ -27,7 +29,8 @@ const SequelizeUserMapper = {
       createdBy,
       updatedBy,
       createdAt,
-      updatedAt
+      updatedAt,
+      roles
     });
   },
 

@@ -10,7 +10,8 @@ const UserSerializer = {
     createdBy,
     updatedBy,
     createdAt,
-    updatedAt
+    updatedAt,
+    roles
   }) {
     return {
       id,
@@ -23,7 +24,8 @@ const UserSerializer = {
       createdBy,
       updatedBy,
       createdAt,
-      updatedAt
+      updatedAt,
+      roles
     };
   }
 };

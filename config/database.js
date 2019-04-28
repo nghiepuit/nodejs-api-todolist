@@ -10,7 +10,6 @@ module.exports = {
       underscored: false
     },
     username: "root",
-    password: "Nghiep2014",
-    database: "db_nodejs"
+    password: "Nghiep2014"
   }
 };

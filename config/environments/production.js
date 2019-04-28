@@ -3,9 +3,7 @@ module.exports = {
     port: process.env.PORT
   },
   logging: {
-    appenders: [
-      { type: 'console', layout: { type: 'basic' } }
-    ]
+    appenders: [{ type: "console", layout: { type: "basic" } }]
   },
-  authSecret: 'Nghiep2014!@#$%'
+  authSecret: "Nghiep2014!@#$%"
 };

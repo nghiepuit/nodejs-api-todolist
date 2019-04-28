@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "cross-env NODE_PATH=. NODE_ENV=development nodemon",
-    "start": "cross-env NODE_PATH=. NODE_ENV=development nodemon",
+    "start": "cross-env NODE_PATH=. NODE_ENV=production nodemon",
     "coverage": "cross-env NODE_PATH=. NODE_ENV=test nyc mocha --opts test/mocha.opts.unit",
     "lint": "eslint {src,test,config}/**/*.js",
     "sequelize": "cross-env NODE_PATH=. sequelize",
@@ -41,6 +41,7 @@
     "log4js": "^1.1.1",
     "method-override": "^2.3.7",
     "morgan": "^1.8.1",
+    "mysql": "^2.17.1",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "pg": "^6.1.3",

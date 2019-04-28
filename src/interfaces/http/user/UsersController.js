@@ -66,13 +66,12 @@ const UsersController = {
       })
       .on(ERROR, next);
 
-    createUser.execute(req.body);
+    createUser.execute(req.body, req.user.id);
   },
 
   update(req, res, next) {
     const { updateUser, userSerializer } = req;
     const { SUCCESS, ERROR, VALIDATION_ERROR, NOT_FOUND } = updateUser.outputs;
-
     updateUser
       .on(SUCCESS, user => {
         res.status(Status.ACCEPTED).json(userSerializer.serialize(user));
@@ -91,7 +90,7 @@ const UsersController = {
       })
       .on(ERROR, next);
 
-    updateUser.execute(Number(req.params.id), req.body);
+    updateUser.execute(Number(req.params.id), req.body, req.user.id);
   },
 
   delete(req, res, next) {

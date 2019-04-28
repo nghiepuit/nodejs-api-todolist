@@ -7,7 +7,10 @@ const UserSerializer = {
     email,
     password,
     isDeleted,
-    createdBy
+    createdBy,
+    updatedBy,
+    createdAt,
+    updatedAt
   }) {
     return {
       id,
@@ -17,7 +20,10 @@ const UserSerializer = {
       email,
       password,
       isDeleted,
-      createdBy
+      createdBy,
+      updatedBy,
+      createdAt,
+      updatedAt
     };
   }
 };

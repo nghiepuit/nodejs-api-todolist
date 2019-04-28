@@ -1,11 +1,11 @@
 const UserMapper = require("./SequelizeUserMapper");
-const { comparePassword } = require("../encryption");
-const container = require("src/container");
+const { comparePassword } = require("../../encryption");
 
 class SequelizeUsersRepository {
-  constructor({ UserModel, RoleModel }) {
+  constructor({ UserModel, RoleModel, PermissionModel }) {
     this.UserModel = UserModel;
     this.RoleModel = RoleModel;
+    this.PermissionModel = PermissionModel;
   }
 
   async findOne(...args) {
@@ -15,6 +15,30 @@ class SequelizeUsersRepository {
       entity = UserMapper.toEntity(user);
     }
     return entity;
+  }
+
+  async findUserWithRolePermission(args) {
+    const user = await this.UserModel.findOne({
+      ...args,
+      include: [
+        {
+          model: this.RoleModel,
+          as: "roles",
+          attributes: ["id", "name"],
+          through: { attributes: [] }, // prevent mapping
+          include: [
+            {
+              model: this.PermissionModel,
+              as: "permissions",
+              attributes: ["id", "name"],
+              through: { attributes: [] } // prevent mapping
+            }
+          ]
+        }
+      ],
+      nested: false
+    });
+    return user;
   }
 
   async getAll(...args) {

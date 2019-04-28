@@ -26,10 +26,20 @@ const swaggerMiddleware = require("./interfaces/http/swagger/swaggerMiddleware")
 
 const encryption = require("./infra/encryption");
 const logger = require("./infra/logging/logger");
-const SequelizeUsersRepository = require("./infra/user/SequelizeUsersRepository");
-const jwt = require("./infra/jwt");
+const SequelizeUsersRepository = require("./infra/repositories/user/SequelizeUsersRepository");
+const jwt = require("./infra/repositories/jwt");
 
-const { database, user: UserModel, role: RoleModel, userrole: UserRoleModel } = require("./infra/database/models");
+/**
+ * Model
+ */
+
+const {
+  database,
+  user: UserModel,
+  role: RoleModel,
+  permission: PermissionModel,
+  userrole: UserRoleModel
+} = require("./infra/database/models");
 
 const container = createContainer();
 
@@ -71,6 +81,7 @@ container.register({
   database: asValue(database),
   UserModel: asValue(UserModel),
   RoleModel: asValue(RoleModel),
+  PermissionModel: asValue(PermissionModel),
   UserRoleModel: asValue(UserRoleModel)
 });
 

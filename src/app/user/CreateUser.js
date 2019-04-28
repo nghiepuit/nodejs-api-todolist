@@ -7,9 +7,14 @@ class CreateUser extends Operation {
     this.usersRepository = usersRepository;
   }
 
-  async execute(userData) {
+  async execute(userData, currentUserId) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.outputs;
-    const user = new User(userData);
+    const data = {
+      ...userData,
+      createdBy: currentUserId,
+      updatedBy: currentUserId
+    };
+    const user = new User(data);
     try {
       const newUser = await this.usersRepository.add(user);
 

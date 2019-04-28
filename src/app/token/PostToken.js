@@ -6,11 +6,10 @@ const Token = require("src/domain/token");
 const Operation = require("src/app/Operation");
 
 class PostToken extends Operation {
-  constructor({ usersRepository, jwt, UserRoleModel }) {
+  constructor({ usersRepository, jwt }) {
     super();
     this.usersRepository = usersRepository;
     this.jwt = jwt;
-    this.UserRoleModel = UserRoleModel;
   }
 
   async execute(body) {
@@ -23,7 +22,7 @@ class PostToken extends Operation {
     } = this.outputs;
     try {
       const credentials = Token(body);
-      const userCredentials = await this.usersRepository.findOne({
+      const userCredentials = await this.usersRepository.findUserWithRolePermission({
         attributes: [
           "id",
           "firstName",
@@ -32,7 +31,10 @@ class PostToken extends Operation {
           "email",
           "password",
           "isDeleted",
-          "createdBy"
+          "createdAt",
+          "updatedAt",
+          "createdBy",
+          "updatedBy"
         ],
         where: {
           email: credentials.email,
@@ -56,10 +58,23 @@ class PostToken extends Operation {
             firstName: userCredentials.firstName,
             lastName: userCredentials.lastName,
             middleName: userCredentials.middleName,
-            email: userCredentials.email
+            email: userCredentials.email,
+            isDeleted: userCredentials.isDeleted,
+            roles: userCredentials.roles
           })
         };
-        this.emit(SUCCESS, data);
+        this.emit(SUCCESS, {
+          token: data,
+          user: {
+            id: userCredentials.id,
+            firstName: userCredentials.firstName,
+            lastName: userCredentials.lastName,
+            middleName: userCredentials.middleName,
+            email: userCredentials.email,
+            isDeleted: userCredentials.isDeleted,
+            roles: userCredentials.roles
+          }
+        });
       }
     } catch (error) {
       if (error.message === "ValidationError") {

@@ -10,7 +10,10 @@ const SequelizeUserMapper = {
       email,
       password,
       isDeleted,
-      createdBy
+      createdBy,
+      updatedBy,
+      createdAt,
+      updatedAt
     } = dataValues;
 
     return new User({
@@ -21,7 +24,10 @@ const SequelizeUserMapper = {
       email,
       password,
       isDeleted,
-      createdBy
+      createdBy,
+      updatedBy,
+      createdAt,
+      updatedAt
     });
   },
 

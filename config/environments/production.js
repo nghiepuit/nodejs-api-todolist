@@ -7,5 +7,5 @@ module.exports = {
       { type: 'console', layout: { type: 'basic' } }
     ]
   },
-  authSecret: process.env.SECRET
+  authSecret: 'Nghiep2014!@#$%'
 };

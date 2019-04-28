@@ -3,19 +3,15 @@ module.exports = (sequelize, DataTypes) => {
   var rolePermission = sequelize.define(
     "rolePermission",
     {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER
-      },
       roleId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
       },
       permissionId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
       },
       createdAt: {
         allowNull: false,

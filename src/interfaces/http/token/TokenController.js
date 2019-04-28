@@ -23,7 +23,10 @@ const TokenController = {
 
     postToken
       .on(SUCCESS, data => {
-        res.status(Status.OK).json(data);
+        // attach current user into request for update created/updated by
+        const { user, token } = data;
+        req.user = user;
+        res.status(Status.OK).json(token);
       })
       .on(EMAIL_NOT_EXIST, error => {
         res.status(Status.NOT_FOUND).json({

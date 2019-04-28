@@ -5,7 +5,10 @@
     "mocha": true
   },
   "parserOptions": {
-    "ecmaVersion": 2017
+    "ecmaVersion": 2018,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
   },
   "extends": "eslint:recommended",
   "rules": {

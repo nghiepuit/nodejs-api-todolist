@@ -18,6 +18,7 @@
     "pm2": "pm2",
     "cleanup": "node scripts/cleanup.js",
     "db:refresh": "sequelize db:migrate:undo:all && sequelize db:migrate",
+    "db:refresh:production": "NODE_ENV=production sequelize db:migrate:undo:all && sequelize db:migrate",
     "db:seed": "cross-env NODE_ENV=development NODE_PATH=. sequelize db:seed:all --seeders-path=./src/infra/database/seeds",
     "db:seed:production": "cross-env NODE_ENV=production NODE_PATH=. sequelize db:seed:all --seeders-path=./src/infra/database/seeds"
   },

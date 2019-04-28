@@ -8,7 +8,7 @@
     "node": ">=7.6.0"
   },
   "scripts": {
-    "dev": "cross-env NODE_PATH=. NODE_ENV=development nodemon",
+    "start:dev": "cross-env NODE_PATH=. NODE_ENV=development nodemon",
     "start": "cross-env NODE_PATH=. NODE_ENV=production nodemon",
     "coverage": "cross-env NODE_PATH=. NODE_ENV=test nyc mocha --opts test/mocha.opts.unit",
     "lint": "eslint {src,test,config}/**/*.js",

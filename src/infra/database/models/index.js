@@ -2,6 +2,7 @@ const { ModelsLoader } = require("src/infra/sequelize");
 const Sequelize = require("sequelize");
 const { db: config } = require("config");
 
+console.log("config: ", config);
 if (config) {
   const sequelize = new Sequelize(config);
 

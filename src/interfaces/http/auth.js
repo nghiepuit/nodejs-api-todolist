@@ -50,7 +50,7 @@ module.exports = ({ config, usersRepository }) => {
               return next();
             }
           }
-          console.log("usersRepository: ", usersRepository);
+          console.log("usersRepository: ", usersRepository.checkHasPermissions);
           usersRepository.checkHasPermissions(listPermission, req.user).then(result => {
             if (result) {
               return next();

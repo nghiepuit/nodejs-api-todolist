@@ -13,6 +13,7 @@ const CategoriesController = {
     router.post("/", inject("createCategory"), this.create);
     router.put("/:id", inject("updateCategory"), this.update);
     router.delete("/:id", inject("deleteCategory"), this.delete);
+    router.post("/order", inject("orderCategory"), this.order);
 
     return router;
   },
@@ -71,7 +72,12 @@ const CategoriesController = {
 
   update(req, res, next) {
     const { updateCategory, categorySerializer } = req;
-    const { SUCCESS, ERROR, VALIDATION_ERROR, NOT_FOUND } = updateCategory.outputs;
+    const {
+      SUCCESS,
+      ERROR,
+      VALIDATION_ERROR,
+      NOT_FOUND
+    } = updateCategory.outputs;
     updateCategory
       .on(SUCCESS, data => {
         res.status(Status.ACCEPTED).json(categorySerializer.serialize(data));
@@ -110,6 +116,34 @@ const CategoriesController = {
       .on(ERROR, next);
 
     deleteCategory.execute(Number(req.params.id));
+  },
+  order(req, res, next) {
+    const { orderCategory } = req;
+    const {
+      SUCCESS,
+      ERROR,
+      VALIDATION_ERROR,
+      NOT_FOUND
+    } = orderCategory.outputs;
+    orderCategory
+      .on(SUCCESS, data => {
+        res.status(Status.ACCEPTED).json(data);
+      })
+      .on(VALIDATION_ERROR, error => {
+        res.status(Status.BAD_REQUEST).json({
+          type: "ValidationError",
+          details: error.details
+        });
+      })
+      .on(NOT_FOUND, error => {
+        res.status(Status.NOT_FOUND).json({
+          type: "NotFoundError",
+          details: error.details
+        });
+      })
+      .on(ERROR, next);
+
+    orderCategory.execute(req.body, req.user.id);
   }
 };
 

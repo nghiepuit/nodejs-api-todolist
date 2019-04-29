@@ -23,7 +23,8 @@ const {
   GetAllCategories,
   GetCategory,
   UpdateCategory,
-  DeleteCategory
+  DeleteCategory,
+  OrderCategory
 } = require("./app/category");
 
 const Server = require("./interfaces/http/Server");
@@ -62,7 +63,8 @@ const {
   role: RoleModel,
   permission: PermissionModel,
   userrole: UserRoleModel,
-  category: CategoryModel
+  category: CategoryModel,
+  product: ProductModel
 } = require("./infra/database/models");
 
 const container = createContainer();
@@ -108,7 +110,8 @@ container.register({
   RoleModel: asValue(RoleModel),
   PermissionModel: asValue(PermissionModel),
   UserRoleModel: asValue(UserRoleModel),
-  CategoryModel: asValue(CategoryModel)
+  CategoryModel: asValue(CategoryModel),
+  ProductModel: asValue(ProductModel)
 });
 
 // Operations
@@ -127,7 +130,8 @@ container.register({
   getAllCategories: asClass(GetAllCategories),
   getCategory: asClass(GetCategory),
   updateCategory: asClass(UpdateCategory),
-  deleteCategory: asClass(DeleteCategory)
+  deleteCategory: asClass(DeleteCategory),
+  orderCategory: asClass(OrderCategory)
 });
 
 // Serializers

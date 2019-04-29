@@ -12,19 +12,18 @@ function slugify(text) {
 }
 
 module.exports = (sequelize, DataTypes) => {
-  var Category = sequelize.define(
-    "categories",
+  var Product = sequelize.define(
+    "products",
     {
       id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false
       },
-      parent: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: null
+      sku: {
+        type: DataTypes.STRING,
+        unique: true
       },
       name: {
         type: DataTypes.STRING,
@@ -33,17 +32,24 @@ module.exports = (sequelize, DataTypes) => {
       slug: {
         type: DataTypes.STRING
       },
-      isDeleted: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-      },
       status: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
       },
-      image: DataTypes.STRING,
-      order: {
-        type: DataTypes.INTEGER
+      description: {
+        type: DataTypes.STRING
+      },
+      hot: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
+      sale: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
+      new: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
       },
       createdBy: {
         type: DataTypes.UUID
@@ -60,46 +66,31 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
+      },
+      categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
       }
     },
     {
+      classMethods: {
+        associate: function(models) {
+          // associations can be defined here
+          Product.belongsTo(models.category, {
+            foreignKey: "categoryId",
+            as: "category"
+          });
+        }
+      },
       hooks: {
         /**
          * Get max order & set order auto increament
          */
-        beforeCreate: (category, options, cb) => {
-          Category.findOne({
-            attributes: [
-              [sequelize.fn("MAX", sequelize.col("order")), "order"]
-            ],
-            raw: true
-          }).then(data => {
-            if (data && data.order && !isNaN(data.order)) {
-              const max = data.order + 1;
-              category.order = max;
-            } else {
-              category.order = 1;
-            }
-            category.slug = slugify(category.name);
-            return cb(null, options);
-          });
-        }
-      },
-      classMethods: {
-        associate: function(models) {
-          // associations can be defined here
-          Category.hasMany(models.category, {
-            onDelete: "CASCADE",
-            foreignKey: "parent",
-            as: "children"
-          });
-          Category.hasMany(models.product, {
-            foreignKey: "categoryId",
-            as: "products"
-          });
+        beforeCreate: (product, options, cb) => {
+          product.slug = slugify(product.name);
         }
       }
     }
   );
-  return Category;
+  return Product;
 };

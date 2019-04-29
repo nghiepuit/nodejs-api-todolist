@@ -2,37 +2,44 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable(
-      "categories",
+      "products",
       {
         id: {
-          type: Sequelize.INTEGER,
-          autoIncrement: true,
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.UUIDV4,
           primaryKey: true,
           allowNull: false
         },
-        parent: {
-          type: Sequelize.INTEGER,
-          allowNull: true,
-          defaultValue: null
-        },
         name: {
           type: Sequelize.STRING,
-          allowNull: false
+          allowNull: false,
+          unique: true
+        },
+        sku: {
+          type: Sequelize.STRING,
+          unique: true
         },
         slug: {
           type: Sequelize.STRING
-        },
-        isDeleted: {
-          type: Sequelize.INTEGER,
-          defaultValue: 0
         },
         status: {
           type: Sequelize.BOOLEAN,
           defaultValue: true
         },
-        image: Sequelize.STRING,
-        order: {
-          type: Sequelize.INTEGER
+        description: {
+          type: Sequelize.STRING
+        },
+        hot: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false
+        },
+        sale: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false
+        },
+        new: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: true
         },
         createdBy: {
           type: Sequelize.UUID
@@ -49,6 +56,10 @@ module.exports = {
           allowNull: false,
           type: Sequelize.DATE,
           defaultValue: Sequelize.NOW
+        },
+        categoryId: {
+          type: Sequelize.INTEGER,
+          allowNull: false
         }
       },
       {
@@ -58,6 +69,6 @@ module.exports = {
     );
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("categories");
+    return queryInterface.dropTable("products");
   }
 };

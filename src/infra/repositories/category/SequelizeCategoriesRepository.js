@@ -1,8 +1,10 @@
+const sequelize = require("sequelize");
 const CategoryMapper = require("./SequelizeCategoryMapper");
 
 class SequelizeCategoriesRepository {
-  constructor({ CategoryModel }) {
+  constructor({ CategoryModel, ProductModel }) {
     this.CategoryModel = CategoryModel;
+    this.ProductModel = ProductModel;
   }
 
   async findOne(...args) {
@@ -17,6 +19,17 @@ class SequelizeCategoriesRepository {
   async getAll(...args) {
     const list = await this.CategoryModel.findAll({
       ...args,
+      order: [
+        ["order", "ASC"],
+        [
+          {
+            model: this.CategoryModel,
+            as: "children"
+          },
+          "order",
+          "ASC"
+        ]
+      ],
       where: {
         parent: null
       },
@@ -37,10 +50,21 @@ class SequelizeCategoriesRepository {
             "updatedBy",
             "createdAt",
             "updatedAt"
+          ],
+          include: [
+            {
+              model: this.ProductModel,
+              as: "products"
+            }
           ]
+        },
+        {
+          model: this.ProductModel,
+          as: "products"
         }
       ]
     });
+    // console.log("list: ", list);
     return list.map(CategoryMapper.toEntity);
   }
 
@@ -92,7 +116,46 @@ class SequelizeCategoriesRepository {
       return entity;
     } catch (error) {
       await transaction.rollback();
+      throw error;
+    }
+  }
 
+  /**
+   * categoryOrderNumbers = [ { id: 1, order: 2 }, { id: 2, order: 1 } ]
+   */
+  async order(body) {
+    const transaction = await this.CategoryModel.sequelize.transaction();
+    try {
+      let error = null;
+      const { categoryOrderNumbers } = body;
+      for (let i = 0; i < categoryOrderNumbers.length; i++) {
+        const item = categoryOrderNumbers[i];
+        let data = null;
+        try {
+          data = await this._getById(item.id);
+          await data.update({ order: item.order });
+        } catch (err) {
+          error = err;
+          break;
+        }
+      }
+      if (error) {
+        throw error;
+      } else {
+        await transaction.commit();
+        return categoryOrderNumbers;
+      }
+    } catch (error) {
+      await transaction.rollback();
+      throw error;
+    }
+  }
+
+  validate(category) {
+    const { valid, errors } = category.validate();
+    if (!valid) {
+      const error = new Error("ValidationError");
+      error.details = errors;
       throw error;
     }
   }
@@ -112,10 +175,8 @@ class SequelizeCategoriesRepository {
       if (error.name === "SequelizeEmptyResultError") {
         const notFoundError = new Error("NotFoundError");
         notFoundError.details = `User with id ${id} can't be found.`;
-
         throw notFoundError;
       }
-
       throw error;
     }
   }

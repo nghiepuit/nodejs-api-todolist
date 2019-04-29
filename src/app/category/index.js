@@ -3,5 +3,6 @@ module.exports = {
   CreateCategory: require("./CreateCategory"),
   GetCategory: require("./GetCategory"),
   UpdateCategory: require("./UpdateCategory"),
-  DeleteCategory: require("./DeleteCategory")
+  DeleteCategory: require("./DeleteCategory"),
+  OrderCategory: require("./OrderCategory")
 };

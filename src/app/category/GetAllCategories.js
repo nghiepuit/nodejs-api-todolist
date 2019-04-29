@@ -1,3 +1,4 @@
+const sequelize = require("sequelize");
 const Operation = require("src/app/Operation");
 
 class GetAllCategories extends Operation {
@@ -23,7 +24,8 @@ class GetAllCategories extends Operation {
           "createdBy",
           "updatedBy",
           "createdAt",
-          "updatedAt"
+          "updatedAt",
+          [sequelize.fn("COUNT", "product.id"), "ProductCount"]
         ]
       });
       this.emit(SUCCESS, list);

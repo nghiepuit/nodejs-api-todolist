@@ -15,7 +15,8 @@ const SequelizeCategoryMapper = {
       updatedBy,
       createdAt,
       updatedAt,
-      children
+      children,
+      products
     } = dataValues;
     return new Category({
       id,
@@ -30,8 +31,19 @@ const SequelizeCategoryMapper = {
       updatedBy,
       createdAt,
       updatedAt,
-      children
+      children: SequelizeCategoryMapper.mapChildren(children),
+      productCount: products ? products.length : 0
     });
+  },
+
+  mapChildren(children) {
+    if (children && children.length > 0) {
+      return children.map(item => {
+        return SequelizeCategoryMapper.toEntity(item)
+      });
+    } else {
+      return [];
+    }
   },
 
   toDatabase(survivor) {

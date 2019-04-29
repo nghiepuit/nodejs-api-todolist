@@ -13,7 +13,8 @@ const Category = attributes({
   updatedBy: String,
   createdAt: Date,
   updatedAt: Date,
-  children: Array
+  children: Array,
+  productCount: Number
 })(
   class Category {
   }

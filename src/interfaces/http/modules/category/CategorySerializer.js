@@ -12,7 +12,8 @@ const CategorySerializer = {
     updatedBy,
     createdAt,
     updatedAt,
-    children
+    children,
+    productCount
   }) {
     return {
       id,
@@ -27,7 +28,8 @@ const CategorySerializer = {
       updatedBy,
       createdAt,
       updatedAt,
-      children
+      children,
+      productCount
     };
   }
 };

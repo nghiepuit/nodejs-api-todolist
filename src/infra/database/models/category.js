@@ -43,7 +43,6 @@ module.exports = (sequelize, DataTypes) => {
       image: DataTypes.STRING,
       order: {
         type: DataTypes.INTEGER,
-        autoIncrement: true,
         allowNull: false
       },
       createdBy: {

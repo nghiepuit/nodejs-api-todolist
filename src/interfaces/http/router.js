@@ -52,6 +52,11 @@ module.exports = ({
     auth.hasPermissions([config.permissions.MANAGE_USER]),
     controller("user/UsersController")
   );
+  apiRouter.use(
+    "/categories",
+    auth.hasPermissions([config.permissions.MANAGE_CATEGORY]),
+    controller("category/CategoriesController")
+  );
 
   router.use("/api", apiRouter);
   router.use(errorHandler);

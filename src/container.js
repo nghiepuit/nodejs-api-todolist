@@ -3,6 +3,11 @@ const { scopePerRequest } = require("awilix-express");
 
 const config = require("../config");
 const Application = require("./app/Application");
+
+/**
+ * Operation
+ */
+
 const {
   CreateUser,
   GetAllUsers,
@@ -13,7 +18,13 @@ const {
 
 const { PostToken, Register } = require("./app/token");
 
-const UserSerializer = require("./interfaces/http/user/UserSerializer");
+const {
+  CreateCategory,
+  GetAllCategories,
+  GetCategory,
+  UpdateCategory,
+  DeleteCategory
+} = require("./app/category");
 
 const Server = require("./interfaces/http/Server");
 const router = require("./interfaces/http/router");
@@ -26,7 +37,19 @@ const swaggerMiddleware = require("./interfaces/http/swagger/swaggerMiddleware")
 
 const encryption = require("./infra/encryption");
 const logger = require("./infra/logging/logger");
+
+/**
+ * Serialize
+ */
+
+const UserSerializer = require("./interfaces/http/modules/user/UserSerializer");
+const CategorySerializer = require("./interfaces/http/modules/category/CategorySerializer");
+
+/**
+ * Repository
+ */
 const SequelizeUsersRepository = require("./infra/repositories/user/SequelizeUsersRepository");
+const SequelizeCategoriesRepository = require("./infra/repositories/category/SequelizeCategoriesRepository");
 const jwt = require("./infra/repositories/jwt");
 
 /**
@@ -38,7 +61,8 @@ const {
   user: UserModel,
   role: RoleModel,
   permission: PermissionModel,
-  userrole: UserRoleModel
+  userrole: UserRoleModel,
+  category: CategoryModel
 } = require("./infra/database/models");
 
 const container = createContainer();
@@ -73,7 +97,8 @@ container
 
 // Repositories
 container.register({
-  usersRepository: asClass(SequelizeUsersRepository).singleton()
+  usersRepository: asClass(SequelizeUsersRepository).singleton(),
+  categoriesRepository: asClass(SequelizeCategoriesRepository).singleton()
 });
 
 // Database
@@ -82,7 +107,8 @@ container.register({
   UserModel: asValue(UserModel),
   RoleModel: asValue(RoleModel),
   PermissionModel: asValue(PermissionModel),
-  UserRoleModel: asValue(UserRoleModel)
+  UserRoleModel: asValue(UserRoleModel),
+  CategoryModel: asValue(CategoryModel)
 });
 
 // Operations
@@ -95,12 +121,19 @@ container.register({
   deleteUser: asClass(DeleteUser),
   // token
   postToken: asClass(PostToken),
-  register: asClass(Register)
+  register: asClass(Register),
+  // category
+  createCategory: asClass(CreateCategory),
+  getAllCategories: asClass(GetAllCategories),
+  getCategory: asClass(GetCategory),
+  updateCategory: asClass(UpdateCategory),
+  deleteCategory: asClass(DeleteCategory)
 });
 
 // Serializers
 container.register({
-  userSerializer: asValue(UserSerializer)
+  userSerializer: asValue(UserSerializer),
+  categorySerializer: asValue(CategorySerializer)
 });
 
 module.exports = container;

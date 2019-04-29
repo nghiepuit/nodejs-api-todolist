@@ -16,12 +16,16 @@ module.exports = (sequelize, DataTypes) => {
     "categories",
     {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-        type: DataTypes.INTEGER
+        allowNull: false
       },
-      parent: DataTypes.INTEGER,
+      parent: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: null
+      },
       name: {
         type: DataTypes.STRING
       },
@@ -37,6 +41,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: true
       },
       image: DataTypes.STRING,
+      order: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        allowNull: false
+      },
       createdBy: {
         type: DataTypes.UUID
       },
@@ -59,13 +68,11 @@ module.exports = (sequelize, DataTypes) => {
         beforeCreate: category => {
           category.slug = slugify(category.name);
         }
-      }
-    },
-    {
+      },
       classMethods: {
         associate: function(models) {
           // associations can be defined here
-          Category.hasMany(models.Category, {
+          Category.hasMany(models.category, {
             onDelete: "CASCADE",
             foreignKey: "parent",
             as: "children"

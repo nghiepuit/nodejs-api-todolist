@@ -5,12 +5,16 @@ module.exports = {
       "categories",
       {
         id: {
-          allowNull: false,
-          autoIncrement: true,
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.UUIDV4,
           primaryKey: true,
-          type: Sequelize.INTEGER
+          allowNull: false
         },
-        parent: Sequelize.INTEGER,
+        parent: {
+          type: Sequelize.STRING,
+          allowNull: true,
+          defaultValue: null
+        },
         name: {
           type: Sequelize.STRING,
           allowNull: false
@@ -27,6 +31,11 @@ module.exports = {
           defaultValue: true
         },
         image: Sequelize.STRING,
+        order: {
+          type: Sequelize.INTEGER,
+          autoIncrement: true,
+          allowNull: false
+        },
         createdBy: {
           type: Sequelize.UUID
         },

@@ -5,8 +5,7 @@ module.exports = {
     const data = [
       {
         id: "randomID1",
-        sku: "dt",
-        name: "Điện Thoại",
+        name: "Áo thun nam",
         categoryId: 1,
         description: "abc",
         createdAt: new Date(),
@@ -14,7 +13,6 @@ module.exports = {
       },
       {
         id: "randomID2",
-        sku: "mtb",
         name: "Máy Tính Bảng",
         categoryId: 1,
         description: "abc",
@@ -23,7 +21,6 @@ module.exports = {
       },
       {
         id: "randomID3",
-        sku: "galaxy",
         name: "Galaxy",
         categoryId: 11,
         description: "test",

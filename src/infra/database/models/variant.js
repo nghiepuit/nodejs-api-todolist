@@ -1,17 +1,16 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  var rolePermission = sequelize.define(
-    "rolePermissions",
+  var variant = sequelize.define(
+    "variants",
     {
-      roleId: {
-        type: DataTypes.INTEGER,
+      id: {
         allowNull: false,
-        primaryKey: true
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
       },
-      permissionId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true
+      name: {
+        type: DataTypes.STRING
       },
       createdAt: {
         allowNull: false,
@@ -30,5 +29,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   );
-  return rolePermission;
+  return variant;
 };

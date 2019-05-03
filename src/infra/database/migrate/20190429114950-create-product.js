@@ -15,10 +15,6 @@ module.exports = {
           allowNull: false,
           unique: true
         },
-        sku: {
-          type: Sequelize.STRING,
-          unique: true
-        },
         slug: {
           type: Sequelize.STRING
         },

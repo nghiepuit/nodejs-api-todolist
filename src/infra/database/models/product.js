@@ -21,10 +21,6 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false
       },
-      sku: {
-        type: DataTypes.STRING,
-        unique: true
-      },
       name: {
         type: DataTypes.STRING,
         allowNull: false
@@ -79,6 +75,10 @@ module.exports = (sequelize, DataTypes) => {
           Product.belongsTo(models.category, {
             foreignKey: "categoryId",
             as: "category"
+          });
+          Product.hasMany(models.productsku, {
+            foreignKey: "productId",
+            as: "productSkus"
           });
         }
       },

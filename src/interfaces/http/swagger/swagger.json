@@ -258,11 +258,36 @@
           }
         ]
       },
+      "Category": {
+        "allOf": [
+          { "$ref": "#/components/schemas/NewCategory" },
+          {
+            "required": ["id"],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          }
+        ]
+      },
       "NewUser": {
         "required": ["name"],
         "properties": {
           "name": {
             "type": "string"
+          }
+        }
+      },
+      "NewCategory": {
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "parent": {
+            "type": "integer"
           }
         }
       },
@@ -301,6 +326,14 @@
             "enum": ["User with id {id} not found"]
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "JWT": {
+        "description": "",
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
       }
     }
   }

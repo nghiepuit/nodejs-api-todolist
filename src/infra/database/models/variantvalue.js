@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
       classMethods: {
         associate: function(models) {
           // associations can be defined here
+          VariantValue.belongsTo(models.variant, {
+            foreignKey: "variantId",
+            as: "variant"
+          });
         }
       }
     }

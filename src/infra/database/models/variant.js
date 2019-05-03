@@ -1,6 +1,6 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  var variant = sequelize.define(
+  var Variant = sequelize.define(
     "variants",
     {
       id: {
@@ -25,9 +25,14 @@ module.exports = (sequelize, DataTypes) => {
       classMethods: {
         associate: function(models) {
           // associations can be defined here
+          Variant.hasMany(models.variantvalue, {
+            onDelete: "CASCADE",
+            foreignKey: "variantId",
+            as: "variantValues"
+          });
         }
       }
     }
   );
-  return variant;
+  return Variant;
 };

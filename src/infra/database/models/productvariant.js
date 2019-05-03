@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       productId: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         allowNull: false
       },
       variantId: {
@@ -34,6 +34,18 @@ module.exports = (sequelize, DataTypes) => {
       classMethods: {
         associate: function(models) {
           // associations can be defined here
+          ProductVariant.belongsTo(models.product, {
+            foreignKey: "productId",
+            as: "product"
+          });
+          ProductVariant.belongsTo(models.variant, {
+            foreignKey: "variantId",
+            as: "variant"
+          });
+          ProductVariant.belongsTo(models.variantvalue, {
+            foreignKey: "variantValueId",
+            as: "variantValue"
+          });
         }
       }
     }

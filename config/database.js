@@ -1,9 +1,11 @@
 module.exports = {
   development: {
     dialect: "mysql",
+    host: "localhost",
     port: 3306,
     define: {
       charset: "utf8mb4",
+      collate: "utf8mb4_unicode_ci",
       freezeTableName: true,
       underscored: true,
       underscoredAll: true,
@@ -18,6 +20,7 @@ module.exports = {
     dialect: "mysql",
     define: {
       charset: "utf8mb4",
+      collate: "utf8mb4_unicode_ci",
       freezeTableName: true,
       underscored: true,
       underscoredAll: true,

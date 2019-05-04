@@ -27,6 +27,14 @@ const {
   OrderCategory
 } = require("./app/category");
 
+const {
+  CreateDirectory,
+  GetAllDirectories,
+  GetDirectory,
+  UpdateDirectory,
+  DeleteDirectory
+} = require("./app/directory");
+
 const Server = require("./interfaces/http/Server");
 const router = require("./interfaces/http/router");
 const auth = require("./interfaces/http/auth");
@@ -45,12 +53,14 @@ const logger = require("./infra/logging/logger");
 
 const UserSerializer = require("./interfaces/http/modules/user/UserSerializer");
 const CategorySerializer = require("./interfaces/http/modules/category/CategorySerializer");
+const DirectorySerializer = require("./interfaces/http/modules/directory/DirectorySerializer");
 
 /**
  * Repository
  */
 const SequelizeUsersRepository = require("./infra/repositories/user/SequelizeUsersRepository");
 const SequelizeCategoriesRepository = require("./infra/repositories/category/SequelizeCategoriesRepository");
+const SequelizeDirectoriesRepository = require("./infra/repositories/directory/SequelizeDirectoriesRepository");
 const jwt = require("./infra/repositories/jwt");
 
 /**
@@ -64,7 +74,8 @@ const {
   permission: PermissionModel,
   userrole: UserRoleModel,
   category: CategoryModel,
-  product: ProductModel
+  product: ProductModel,
+  directory: DirectoryModel
 } = require("./infra/database/models");
 
 const container = createContainer();
@@ -100,7 +111,8 @@ container
 // Repositories
 container.register({
   usersRepository: asClass(SequelizeUsersRepository).singleton(),
-  categoriesRepository: asClass(SequelizeCategoriesRepository).singleton()
+  categoriesRepository: asClass(SequelizeCategoriesRepository).singleton(),
+  directoriesRepository: asClass(SequelizeDirectoriesRepository).singleton()
 });
 
 // Database
@@ -111,7 +123,8 @@ container.register({
   PermissionModel: asValue(PermissionModel),
   UserRoleModel: asValue(UserRoleModel),
   CategoryModel: asValue(CategoryModel),
-  ProductModel: asValue(ProductModel)
+  ProductModel: asValue(ProductModel),
+  DirectoryModel: asValue(DirectoryModel)
 });
 
 // Operations
@@ -131,13 +144,20 @@ container.register({
   getCategory: asClass(GetCategory),
   updateCategory: asClass(UpdateCategory),
   deleteCategory: asClass(DeleteCategory),
-  orderCategory: asClass(OrderCategory)
+  orderCategory: asClass(OrderCategory),
+  // directory
+  createDirectory: asClass(CreateDirectory),
+  getAllDirectories: asClass(GetAllDirectories),
+  getDirectory: asClass(GetDirectory),
+  updateDirectory: asClass(UpdateDirectory),
+  deleteDirectory: asClass(DeleteDirectory)
 });
 
 // Serializers
 container.register({
   userSerializer: asValue(UserSerializer),
-  categorySerializer: asValue(CategorySerializer)
+  categorySerializer: asValue(CategorySerializer),
+  directorySerializer: asValue(DirectorySerializer)
 });
 
 module.exports = container;

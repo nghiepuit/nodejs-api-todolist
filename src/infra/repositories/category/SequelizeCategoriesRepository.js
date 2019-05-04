@@ -1,4 +1,3 @@
-const sequelize = require("sequelize");
 const CategoryMapper = require("./SequelizeCategoryMapper");
 
 class SequelizeCategoriesRepository {

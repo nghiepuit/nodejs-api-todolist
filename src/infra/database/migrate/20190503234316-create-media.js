@@ -28,6 +28,12 @@ module.exports = {
         type: {
           type: Sequelize.STRING
         },
+        extension: {
+          type: Sequelize.STRING
+        },
+        directoryId: {
+          type: Sequelize.INTEGER
+        },
         createdBy: {
           type: Sequelize.UUID
         },
@@ -36,12 +42,14 @@ module.exports = {
         },
         createdAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.NOW
         },
         updatedAt: {
           allowNull: false,
-          type: Sequelize.DATE
-        }
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.NOW
+        },
       },
       {
         charset: "utf8mb4",

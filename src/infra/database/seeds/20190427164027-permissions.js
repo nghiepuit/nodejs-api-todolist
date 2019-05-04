@@ -20,6 +20,12 @@ module.exports = {
         name: "MANAGE_CATEGORY",
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        id: 4,
+        name: "MANAGE_DIRECTORY",
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ];
     return queryInterface.bulkInsert("permissions", data, {});

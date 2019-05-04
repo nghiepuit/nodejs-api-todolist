@@ -1,7 +1,7 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  var Variant = sequelize.define(
-    "variants",
+  var Directory = sequelize.define(
+    "directories",
     {
       id: {
         allowNull: false,
@@ -12,6 +12,16 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING
       },
+      path: {
+        type: DataTypes.STRING,
+        unique: true
+      },
+      createdBy: {
+        type: DataTypes.UUID
+      },
+      updatedBy: {
+        type: DataTypes.UUID
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
@@ -21,20 +31,30 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
+      },
+      parent: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: null
       }
     },
     {
       classMethods: {
         associate: function(models) {
           // associations can be defined here
-          Variant.hasMany(models.variantvalue, {
+          Directory.hasMany(models.directory, {
             onDelete: "CASCADE",
-            foreignKey: "variantId",
-            as: "variantValues"
+            foreignKey: "parent",
+            as: "children"
+          });
+          Directory.hasMany(models.media, {
+            onDelete: "CASCADE",
+            foreignKey: "directoryId",
+            as: "listMedia"
           });
         }
       }
     }
   );
-  return Variant;
+  return Directory;
 };

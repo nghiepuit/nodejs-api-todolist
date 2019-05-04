@@ -9,14 +9,14 @@ note: update model mapping with migration.
 
 ## Add constraint :
 
-npx sequelize migration:generate --name NAME
+npx sequelize migration:generate --name CONSTRAIN_NAME
 
 ## Rules
 
 table 2 words+ Ex: role permission => rolePermissions
 Connect to model: models.file-name
 
-## Steo by step
+## Step by step
 
 Create Model db orm >>
 Create Repository + Mapper >>

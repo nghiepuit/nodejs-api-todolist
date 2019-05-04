@@ -20,6 +20,10 @@ const PERMISSIONS = {
   MANAGE_CATEGORY: {
     id: 3,
     name: "MANAGE_CATEGORY"
+  },
+  MANAGE_DIRECTORY: {
+    id: 4,
+    name: "MANAGE_DIRECTORY"
   }
 };
 const SUPER_ADMIN_ROLE = 1;

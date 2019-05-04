@@ -1,6 +1,6 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  var media = sequelize.define(
+  var Media = sequelize.define(
     "media",
     {
       id: {
@@ -27,6 +27,12 @@ module.exports = (sequelize, DataTypes) => {
       type: {
         type: DataTypes.STRING
       },
+      extension: {
+        type: DataTypes.STRING
+      },
+      directoryId: {
+        type: DataTypes.INTEGER
+      },
       createdBy: {
         type: DataTypes.UUID
       },
@@ -35,20 +41,26 @@ module.exports = (sequelize, DataTypes) => {
       },
       createdAt: {
         allowNull: false,
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
       },
       updatedAt: {
         allowNull: false,
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
       }
     },
     {
       classMethods: {
         associate: function(models) {
           // associations can be defined here
+          Media.belongsTo(models.directory, {
+            foreignKey: "directoryId",
+            as: "directory"
+          });
         }
       }
     }
   );
-  return media;
+  return Media;
 };

@@ -2,17 +2,26 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable(
-      "rolePermissions",
+      "directories",
       {
-        roleId: {
-          type: Sequelize.INTEGER,
+        id: {
           allowNull: false,
-          primaryKey: true
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.INTEGER
         },
-        permissionId: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          primaryKey: true
+        name: {
+          type: Sequelize.STRING
+        },
+        path: {
+          type: Sequelize.STRING,
+          unique: true
+        },
+        createdBy: {
+          type: Sequelize.UUID
+        },
+        updatedBy: {
+          type: Sequelize.UUID
         },
         createdAt: {
           allowNull: false,
@@ -23,6 +32,11 @@ module.exports = {
           allowNull: false,
           type: Sequelize.DATE,
           defaultValue: Sequelize.NOW
+        },
+        parent: {
+          type: Sequelize.INTEGER,
+          allowNull: true,
+          defaultValue: null
         }
       },
       {
@@ -32,6 +46,6 @@ module.exports = {
     );
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("rolePermissions");
+    return queryInterface.dropTable("directories");
   }
 };

@@ -2,7 +2,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable(
-      "productvariants",
+      "productMedia",
       {
         id: {
           allowNull: false,
@@ -10,25 +10,11 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER
         },
-        productId: {
-          type: Sequelize.UUID,
-          allowNull: false
+        productVariantId: {
+          type: Sequelize.INTEGER
         },
-        variantId: {
-          type: Sequelize.INTEGER,
-          allowNull: false
-        },
-        variantValueId: {
-          type: Sequelize.INTEGER,
-          allowNull: false
-        },
-        price: {
-          type: Sequelize.DECIMAL(10, 2),
-          allowNull: false
-        },
-        promotionPrice: {
-          type: Sequelize.DECIMAL(10, 2),
-          allowNull: false
+        mediaId: {
+          type: Sequelize.INTEGER
         },
         createdAt: {
           allowNull: false,
@@ -46,6 +32,6 @@ module.exports = {
     );
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("productvariants");
+    return queryInterface.dropTable("productMedia");
   }
 };

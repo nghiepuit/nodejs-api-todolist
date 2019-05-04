@@ -5,7 +5,7 @@ module.exports = {
       "userRoles",
       {
         userId: {
-          type: Sequelize.STRING,
+          type: Sequelize.UUID,
           allowNull: false,
           primaryKey: true
         },

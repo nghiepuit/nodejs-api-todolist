@@ -7,6 +7,10 @@ npx sequelize model:generate --name category --attributes name:string
 npx sequelize seed:generate --name test-categories
 note: update model mapping with migration.
 
+## Add constraint :
+
+npx sequelize migration:generate --name NAME
+
 ## Rules
 
 table 2 words+ Ex: role permission => rolePermissions

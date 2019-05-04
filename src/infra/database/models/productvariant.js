@@ -21,6 +21,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      price: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
+      },
+      promotionPrice: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE
@@ -45,6 +53,10 @@ module.exports = (sequelize, DataTypes) => {
           ProductVariant.belongsTo(models.variantvalue, {
             foreignKey: "variantValueId",
             as: "variantValue"
+          });
+          ProductVariant.hasMany(models.productmedia, {
+            foreignKey: "productVariantId",
+            as: "listProductMedia"
           });
         }
       }

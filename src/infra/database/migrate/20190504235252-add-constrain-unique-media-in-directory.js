@@ -4,7 +4,7 @@ const sqlUp =
   "ALTER TABLE media ADD CONSTRAINT FK_UNIQUE_COMBINATION_MEDIA_IN_DIRECTORY UNIQUE(name, path, directoryId)";
 
 const sqlDown =
-  "ALTER TABLE media DROP FOREIGN KEY FK_UNIQUE_COMBINATION_MEDIA_IN_DIRECTORY;";
+  "ALTER TABLE media DROP INDEX FK_UNIQUE_COMBINATION_MEDIA_IN_DIRECTORY;";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

@@ -15,6 +15,7 @@ class GetAllDirectories extends Operation {
           "id",
           "parent",
           "name",
+          "path",
           "createdBy",
           "updatedBy",
           "createdAt",

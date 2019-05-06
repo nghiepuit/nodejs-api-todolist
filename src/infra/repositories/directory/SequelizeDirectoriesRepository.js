@@ -21,29 +21,7 @@ class SequelizeDirectoriesRepository {
       ...args
     });
     const listEntity = list.map(DirectoryMapper.toEntity);
-    const result = this.flatToHierarchy(listEntity);
-    return result;
-  }
-
-  flatToHierarchy(list) {
-    var map = {},
-      node,
-      roots = [],
-      i;
-    for (i = 0; i < list.length; i += 1) {
-      map[list[i].id] = i; // initialize the map
-      list[i].children = []; // initialize the children
-    }
-    for (i = 0; i < list.length; i += 1) {
-      node = list[i];
-      if (node.parent) {
-        // if you have dangling branches check that map[node.parent] exists
-        list[map[node.parent]].children.push(node);
-      } else {
-        roots.push(node);
-      }
-    }
-    return roots;
+    return listEntity;
   }
 
   async getById(id) {

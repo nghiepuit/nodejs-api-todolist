@@ -9,9 +9,9 @@ const DirectoriesController = {
     router.use(inject("directorySerializer"));
 
     router.get("/", inject("getAllDirectories"), this.index);
-    router.get("/:id", inject("getDirectory"), this.show);
-    router.post("/", inject("createDirectory"), this.create);
-    router.put("/:id", inject("updateDirectory"), this.update);
+    // router.get("/:id", inject("getDirectory"), this.show);
+    // router.post("/", inject("createDirectory"), this.create);
+    // router.put("/:id", inject("updateDirectory"), this.update);
     router.delete("/:id", inject("deleteDirectory"), this.delete);
 
     return router;
@@ -22,8 +22,10 @@ const DirectoriesController = {
     const { SUCCESS, ERROR } = getAllDirectories.outputs;
 
     getAllDirectories
-      .on(SUCCESS, users => {
-        res.status(Status.OK).json(users.map(directorySerializer.serialize));
+      .on(SUCCESS, list => {
+        const serializeList = list.map(directorySerializer.serialize);
+        const result = directorySerializer.getNestedChildren(serializeList);
+        res.status(Status.OK).json(result);
       })
       .on(ERROR, next);
 
@@ -36,8 +38,8 @@ const DirectoriesController = {
     const { SUCCESS, ERROR, NOT_FOUND } = getDirectory.outputs;
 
     getDirectory
-      .on(SUCCESS, user => {
-        res.status(Status.OK).json(directorySerializer.serialize(user));
+      .on(SUCCESS, data => {
+        res.status(Status.OK).json(directorySerializer.serialize(data));
       })
       .on(NOT_FOUND, error => {
         res.status(Status.NOT_FOUND).json({
@@ -55,8 +57,8 @@ const DirectoriesController = {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = createDirectory.outputs;
 
     createDirectory
-      .on(SUCCESS, user => {
-        res.status(Status.CREATED).json(directorySerializer.serialize(user));
+      .on(SUCCESS, data => {
+        res.status(Status.CREATED).json(directorySerializer.serialize(data));
       })
       .on(VALIDATION_ERROR, error => {
         res.status(Status.BAD_REQUEST).json({
@@ -71,10 +73,15 @@ const DirectoriesController = {
 
   update(req, res, next) {
     const { updateDirectory, directorySerializer } = req;
-    const { SUCCESS, ERROR, VALIDATION_ERROR, NOT_FOUND } = updateDirectory.outputs;
+    const {
+      SUCCESS,
+      ERROR,
+      VALIDATION_ERROR,
+      NOT_FOUND
+    } = updateDirectory.outputs;
     updateDirectory
-      .on(SUCCESS, user => {
-        res.status(Status.ACCEPTED).json(directorySerializer.serialize(user));
+      .on(SUCCESS, data => {
+        res.status(Status.ACCEPTED).json(directorySerializer.serialize(data));
       })
       .on(VALIDATION_ERROR, error => {
         res.status(Status.BAD_REQUEST).json({
@@ -95,7 +102,7 @@ const DirectoriesController = {
 
   delete(req, res, next) {
     const { deleteDirectory } = req;
-    const { SUCCESS, ERROR, NOT_FOUND } = deleteDirectory.outputs;
+    const { SUCCESS, ERROR, NOT_FOUND, CHILDREN_EXISTING } = deleteDirectory.outputs;
 
     deleteDirectory
       .on(SUCCESS, () => {
@@ -105,6 +112,12 @@ const DirectoriesController = {
         res.status(Status.NOT_FOUND).json({
           type: "NotFoundError",
           details: error.details
+        });
+      })
+      .on(CHILDREN_EXISTING, error => {
+        res.status(Status.BAD_REQUEST).json({
+          type: "ChildrenExisting",
+          details: error
         });
       })
       .on(ERROR, next);

@@ -28,3 +28,11 @@ Serialize + Controller ( interfaces/http/modules )
 Manage User - Role - Permission
 Manage Category
 Manage Product - Brand - Variants - Vendor
+
+## Awillix - module register :
+
+1. Operation.
+2. Serialize : convert data from controller to send to user.
+3. Repository.
+4. Model : database.
+5. Repository.

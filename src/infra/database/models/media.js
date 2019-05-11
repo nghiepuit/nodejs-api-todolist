@@ -9,10 +9,13 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER
       },
-      name: {
+      originalName: {
         type: DataTypes.STRING
       },
-      originalFilename: {
+      mimetype: {
+        type: DataTypes.STRING
+      },
+      destination: {
         type: DataTypes.STRING
       },
       src: {
@@ -22,9 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       size: {
-        type: DataTypes.STRING
-      },
-      type: {
         type: DataTypes.STRING
       },
       extension: {
@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
-      }
+      },
     },
     {
       classMethods: {

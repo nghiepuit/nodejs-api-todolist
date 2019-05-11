@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 
 class Server {
   constructor({ config, router, logger, auth }) {
@@ -6,7 +6,7 @@ class Server {
     this.logger = logger;
     this.express = express();
 
-    this.express.disable('x-powered-by');
+    this.express.disable("x-powered-by");
     // init passport here.
     this.express.use(auth.initialize());
     this.express.use(router);

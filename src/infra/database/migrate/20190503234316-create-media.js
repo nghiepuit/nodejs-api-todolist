@@ -10,10 +10,13 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER
         },
-        name: {
+        originalName: {
           type: Sequelize.STRING
         },
-        originalFilename: {
+        mimetype: {
+          type: Sequelize.STRING
+        },
+        destination: {
           type: Sequelize.STRING
         },
         src: {
@@ -23,9 +26,6 @@ module.exports = {
           type: Sequelize.STRING
         },
         size: {
-          type: Sequelize.STRING
-        },
-        type: {
           type: Sequelize.STRING
         },
         extension: {

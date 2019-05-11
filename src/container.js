@@ -35,6 +35,14 @@ const {
   DeleteDirectory
 } = require("./app/directory");
 
+const {
+  CreateMedia,
+  GetAllMedia,
+  GetMedia,
+  UpdateMedia,
+  DeleteMedia
+} = require("./app/media");
+
 const Server = require("./interfaces/http/Server");
 const router = require("./interfaces/http/router");
 const auth = require("./interfaces/http/auth");
@@ -54,6 +62,7 @@ const logger = require("./infra/logging/logger");
 const UserSerializer = require("./interfaces/http/modules/user/UserSerializer");
 const CategorySerializer = require("./interfaces/http/modules/category/CategorySerializer");
 const DirectorySerializer = require("./interfaces/http/modules/directory/DirectorySerializer");
+const MediaSerializer = require("./interfaces/http/modules/media/MediaSerializer");
 
 /**
  * Repository
@@ -62,6 +71,7 @@ const SequelizeUsersRepository = require("./infra/repositories/user/SequelizeUse
 const SequelizeCategoriesRepository = require("./infra/repositories/category/SequelizeCategoriesRepository");
 const SequelizeDirectoriesRepository = require("./infra/repositories/directory/SequelizeDirectoriesRepository");
 const jwt = require("./infra/repositories/jwt");
+const SequelizeMediaRepository = require("./infra/repositories/media/SequelizeMediaRepository");
 
 /**
  * Model
@@ -75,7 +85,8 @@ const {
   userrole: UserRoleModel,
   category: CategoryModel,
   product: ProductModel,
-  directory: DirectoryModel
+  directory: DirectoryModel,
+  media: MediaModel
 } = require("./infra/database/models");
 
 const container = createContainer();
@@ -112,7 +123,8 @@ container
 container.register({
   usersRepository: asClass(SequelizeUsersRepository).singleton(),
   categoriesRepository: asClass(SequelizeCategoriesRepository).singleton(),
-  directoriesRepository: asClass(SequelizeDirectoriesRepository).singleton()
+  directoriesRepository: asClass(SequelizeDirectoriesRepository).singleton(),
+  mediaRepository: asClass(SequelizeMediaRepository).singleton()
 });
 
 // Database
@@ -124,7 +136,8 @@ container.register({
   UserRoleModel: asValue(UserRoleModel),
   CategoryModel: asValue(CategoryModel),
   ProductModel: asValue(ProductModel),
-  DirectoryModel: asValue(DirectoryModel)
+  DirectoryModel: asValue(DirectoryModel),
+  MediaModel: asValue(MediaModel)
 });
 
 // Operations
@@ -150,14 +163,21 @@ container.register({
   getAllDirectories: asClass(GetAllDirectories),
   getDirectory: asClass(GetDirectory),
   updateDirectory: asClass(UpdateDirectory),
-  deleteDirectory: asClass(DeleteDirectory)
+  deleteDirectory: asClass(DeleteDirectory),
+  // media
+  createMedia: asClass(CreateMedia),
+  getAllMedia: asClass(GetAllMedia),
+  getMedia: asClass(GetMedia),
+  updateMedia: asClass(UpdateMedia),
+  deleteMedia: asClass(DeleteMedia)
 });
 
 // Serializers
 container.register({
   userSerializer: asValue(UserSerializer),
   categorySerializer: asValue(CategorySerializer),
-  directorySerializer: asValue(DirectorySerializer)
+  directorySerializer: asValue(DirectorySerializer),
+  mediaSerializer: asValue(MediaSerializer)
 });
 
 module.exports = container;

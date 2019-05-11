@@ -9,9 +9,9 @@ const DirectoriesController = {
     router.use(inject("directorySerializer"));
 
     router.get("/", inject("getAllDirectories"), this.index);
-    // router.get("/:id", inject("getDirectory"), this.show);
-    // router.post("/", inject("createDirectory"), this.create);
-    // router.put("/:id", inject("updateDirectory"), this.update);
+    router.get("/:id", inject("getDirectory"), this.show);
+    router.post("/", inject("createDirectory"), this.create);
+    router.put("/:id", inject("updateDirectory"), this.update);
     router.delete("/:id", inject("deleteDirectory"), this.delete);
 
     return router;

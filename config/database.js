@@ -13,7 +13,7 @@ module.exports = {
     },
     username: "root",
     password: "Nghiep2014",
-    database: "database_nodejs_dev"
+    database: "db_todolist"
   },
   production: {
     url: process.env.DATABASE_URL,
@@ -28,6 +28,6 @@ module.exports = {
     },
     username: "root",
     password: "Nghiep2014",
-    database: "database_nodejs"
+    database: "db_todolist"
   }
 };

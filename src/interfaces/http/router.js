@@ -67,6 +67,11 @@ module.exports = ({
     auth.hasPermissions([config.permissions.MANAGE_DIRECTORY]),
     controller("media/MediaController")
   );
+  apiRouter.use(
+    "/tasks",
+    auth.authenticate(),
+    controller("task/TasksController")
+  );
 
   router.use("/api", apiRouter);
   router.use(errorHandler);

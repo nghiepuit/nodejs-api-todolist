@@ -43,6 +43,15 @@ const {
   DeleteMedia
 } = require("./app/media");
 
+const {
+  CreateTask,
+  GetAllTasks,
+  GetTask,
+  UpdateTask,
+  DeleteTask,
+  OrderTask
+} = require("./app/task");
+
 const Server = require("./interfaces/http/Server");
 const router = require("./interfaces/http/router");
 const auth = require("./interfaces/http/auth");
@@ -63,6 +72,7 @@ const UserSerializer = require("./interfaces/http/modules/user/UserSerializer");
 const CategorySerializer = require("./interfaces/http/modules/category/CategorySerializer");
 const DirectorySerializer = require("./interfaces/http/modules/directory/DirectorySerializer");
 const MediaSerializer = require("./interfaces/http/modules/media/MediaSerializer");
+const TaskSerializer = require("./interfaces/http/modules/task/TaskSerializer");
 
 /**
  * Repository
@@ -72,6 +82,7 @@ const SequelizeCategoriesRepository = require("./infra/repositories/category/Seq
 const SequelizeDirectoriesRepository = require("./infra/repositories/directory/SequelizeDirectoriesRepository");
 const jwt = require("./infra/repositories/jwt");
 const SequelizeMediaRepository = require("./infra/repositories/media/SequelizeMediaRepository");
+const SequelizeTasksRepository = require("./infra/repositories/task/SequelizeTasksRepository");
 
 /**
  * Model
@@ -86,7 +97,8 @@ const {
   category: CategoryModel,
   product: ProductModel,
   directory: DirectoryModel,
-  media: MediaModel
+  media: MediaModel,
+  task: TaskModel
 } = require("./infra/database/models");
 
 const container = createContainer();
@@ -124,7 +136,8 @@ container.register({
   usersRepository: asClass(SequelizeUsersRepository).singleton(),
   categoriesRepository: asClass(SequelizeCategoriesRepository).singleton(),
   directoriesRepository: asClass(SequelizeDirectoriesRepository).singleton(),
-  mediaRepository: asClass(SequelizeMediaRepository).singleton()
+  mediaRepository: asClass(SequelizeMediaRepository).singleton(),
+  tasksRepository: asClass(SequelizeTasksRepository).singleton()
 });
 
 // Database
@@ -137,7 +150,8 @@ container.register({
   CategoryModel: asValue(CategoryModel),
   ProductModel: asValue(ProductModel),
   DirectoryModel: asValue(DirectoryModel),
-  MediaModel: asValue(MediaModel)
+  MediaModel: asValue(MediaModel),
+  TaskModel: asValue(TaskModel)
 });
 
 // Operations
@@ -169,7 +183,14 @@ container.register({
   getAllMedia: asClass(GetAllMedia),
   getMedia: asClass(GetMedia),
   updateMedia: asClass(UpdateMedia),
-  deleteMedia: asClass(DeleteMedia)
+  deleteMedia: asClass(DeleteMedia),
+  // task
+  createTask: asClass(CreateTask),
+  getAllTasks: asClass(GetAllTasks),
+  getTask: asClass(GetTask),
+  updateTask: asClass(UpdateTask),
+  deleteTask: asClass(DeleteTask),
+  orderTask: asClass(OrderTask),
 });
 
 // Serializers
@@ -177,7 +198,8 @@ container.register({
   userSerializer: asValue(UserSerializer),
   categorySerializer: asValue(CategorySerializer),
   directorySerializer: asValue(DirectorySerializer),
-  mediaSerializer: asValue(MediaSerializer)
+  mediaSerializer: asValue(MediaSerializer),
+  taskSerializer: asValue(TaskSerializer)
 });
 
 module.exports = container;

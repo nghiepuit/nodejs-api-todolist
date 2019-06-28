@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
           });
           Product.hasMany(models.productvariant, {
             foreignKey: "productId",
-            as: "productVariants"
+            as: "productvariants"
           });
         }
       },

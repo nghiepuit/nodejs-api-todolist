@@ -24,10 +24,10 @@ module.exports = {
         updatedAt: new Date()
       }
     ];
-    return queryInterface.bulkInsert("productVariants", data, {});
+    return queryInterface.bulkInsert("productvariants", data, {});
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("productVariants", null, {});
+    return queryInterface.bulkDelete("productvariants", null, {});
   }
 };

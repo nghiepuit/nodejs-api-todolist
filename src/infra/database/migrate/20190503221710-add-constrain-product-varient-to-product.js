@@ -1,10 +1,10 @@
 "use strict";
 
 const sqlUp =
-  "ALTER TABLE productVariants ADD CONSTRAINT FK_PRODUCT_VARIANT_TO_PRODUCT FOREIGN KEY (productId) REFERENCES products(id);";
+  "ALTER TABLE productvariants ADD CONSTRAINT FK_PRODUCT_VARIANT_TO_PRODUCT FOREIGN KEY (productId) REFERENCES products(id);";
 
 const sqlDown =
-  "ALTER TABLE productVariants DROP FOREIGN KEY FK_PRODUCT_VARIANT_TO_PRODUCT;";
+  "ALTER TABLE productvariants DROP FOREIGN KEY FK_PRODUCT_VARIANT_TO_PRODUCT;";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

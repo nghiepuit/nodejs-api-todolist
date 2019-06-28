@@ -1,7 +1,7 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
   var ProductVariant = sequelize.define(
-    "productVariants",
+    "productvariants",
     {
       id: {
         allowNull: false,

@@ -1,6 +1,6 @@
-const Category = require("src/domain/category/Category");
+const Task = require("src/domain/task/Task");
 
-const SequelizeCategoryMapper = {
+const SequelizeTaskMapper = {
   toEntity({ dataValues }) {
     const {
       id,
@@ -11,7 +11,7 @@ const SequelizeCategoryMapper = {
       createdAt,
       updatedAt
     } = dataValues;
-    return new Category({
+    return new Task({
       id,
       title,
       description,
@@ -44,4 +44,4 @@ const SequelizeCategoryMapper = {
   }
 };
 
-module.exports = SequelizeCategoryMapper;
+module.exports = SequelizeTaskMapper;

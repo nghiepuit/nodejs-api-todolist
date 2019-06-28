@@ -70,7 +70,7 @@ class SequelizeUsersRepository {
     if (!valid) {
       const error = new Error("ValidationError");
       error.details = errors;
-      throw error;
+      return error;
     }
 
     const newUser = await this.UserModel.create(UserMapper.toDatabase(user));

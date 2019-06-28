@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Node API boilerplate",
+    "title": "Hệ thống API cho ứng dụng TODO List",
     "version": "v1"
   },
   "servers": [
@@ -11,19 +11,19 @@
     }
   ],
   "paths": {
-    "/users": {
+    "/tasks": {
       "get": {
-        "operationId": "listUsers",
-        "tags": ["Users"],
+        "operationId": "getAllTasks",
+        "tags": ["Tasks"],
         "responses": {
           "200": {
-            "description": "List of all users",
+            "description": "Lấy danh sách công việc",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/Task"
                   }
                 }
               }
@@ -32,32 +32,32 @@
         }
       },
       "post": {
-        "operationId": "createUser",
-        "tags": ["Users"],
+        "operationId": "createTask",
+        "tags": ["Tasks"],
         "requestBody": {
-          "description": "User data",
+          "description": "Task data",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewUser"
+                "$ref": "#/components/schemas/NewTask"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "User created successfully",
+            "description": "Task created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/Task"
                 }
               }
             }
           },
           "400": {
-            "description": "User not created because of validation error",
+            "description": "Task not created because of validation error",
             "content": {
               "application/json": {
                 "schema": {
@@ -69,15 +69,15 @@
         }
       }
     },
-    "/users/{id}": {
+    "/tasks/{id}": {
       "get": {
-        "operationId": "showUser",
-        "tags": ["Users"],
+        "operationId": "getTask",
+        "tags": ["Tasks"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id of user to show",
+            "description": "Id of task to show",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -85,17 +85,17 @@
         ],
         "responses": {
           "200": {
-            "description": "Return user with given id",
+            "description": "Return task with given id",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/Task"
                 }
               }
             }
           },
           "404": {
-            "description": "User not found",
+            "description": "Task not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -107,42 +107,42 @@
         }
       },
       "put": {
-        "operationId": "updateUser",
-        "tags": ["Users"],
+        "operationId": "updateTask",
+        "tags": ["Tasks"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id of user to update",
+            "description": "Id of task to update",
             "required": true,
             "type": "integer",
             "format": "int64"
           }
         ],
         "requestBody": {
-          "description": "User new data",
+          "description": "Task new data",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewUser"
+                "$ref": "#/components/schemas/NewTask"
               }
             }
           }
         },
         "responses": {
           "202": {
-            "description": "User updated successfully",
+            "description": "Task updated successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/Task"
                 }
               }
             }
           },
           "404": {
-            "description": "User not found",
+            "description": "Task not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -154,13 +154,13 @@
         }
       },
       "delete": {
-        "operationId": "deleteUser",
-        "tags": ["Users"],
+        "operationId": "deleteTask",
+        "tags": ["Tasks"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id of user to delete",
+            "description": "Id of task to delete",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -168,10 +168,10 @@
         ],
         "responses": {
           "202": {
-            "description": "User deleted successfully"
+            "description": "Task deleted successfully"
           },
           "404": {
-            "description": "User not found",
+            "description": "Task not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -183,53 +183,73 @@
         }
       }
     },
-    "/categories": {
-      "get": {
-        "operationId": "listCategories",
-        "tags": ["Categories"],
-        "responses": {
-          "200": {
-            "description": "List of all categories",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Category"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
+    "/auth/register": {
       "post": {
-        "operationId": "createCategory",
-        "tags": ["Categories"],
+        "operationId": "register",
+        "tags": ["Users"],
         "requestBody": {
-          "description": "Category data",
+          "description": "User data",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewCategory"
+                "$ref": "#/components/schemas/Authentication"
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": "Category created successfully",
+          "200": {
+            "description": "return id",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Category"
+                  "$ref": "#/components/schemas/RegisterSuccessfully"
                 }
               }
             }
           },
-          "400": {
-            "description": "Category not created because of validation error",
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/token": {
+      "post": {
+        "operationId": "login",
+        "tags": ["Users"],
+        "requestBody": {
+          "description": "User data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Authentication"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "return id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginSuccessfully"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -244,52 +264,80 @@
   },
   "components": {
     "schemas": {
-      "User": {
+      "Task": {
         "allOf": [
-          { "$ref": "#/components/schemas/NewUser" },
+          { "$ref": "#/components/schemas/NewTask" },
           {
             "required": ["id"],
             "properties": {
-              "id": {
-                "type": "integer",
-                "format": "int64"
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "status": {
+                "type": "integer"
+              },
+              "order": {
+                "type": "integer"
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "updatedAt": {
+                "type": "string"
               }
             }
           }
         ]
       },
-      "Category": {
-        "allOf": [
-          { "$ref": "#/components/schemas/NewCategory" },
-          {
-            "required": ["id"],
-            "properties": {
-              "id": {
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "NewUser": {
+      "NewTask": {
         "required": ["name"],
         "properties": {
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-      "NewCategory": {
-        "required": ["name"],
-        "properties": {
-          "name": {
+          "title": {
             "type": "string"
           },
-          "parent": {
-            "type": "integer"
+          "description": {
+            "type": "string"
           }
         }
+      },
+      "Authentication": {
+        "allOf": [
+          {
+            "properties": {
+              "email": {
+                "type": "string"
+              },
+              "password": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "RegisterSuccessfully": {
+        "allOf": [
+          {
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "LoginSuccessfully": {
+        "allOf": [
+          {
+            "properties": {
+              "token": {
+                "type": "string"
+              }
+            }
+          }
+        ]
       },
       "ValidationError": {
         "properties": {
@@ -323,18 +371,23 @@
           },
           "details": {
             "type": "string",
-            "enum": ["User with id {id} not found"]
+            "enum": ["Task with id {id} not found"]
           }
         }
       }
     },
     "securitySchemes": {
-      "JWT": {
-        "description": "",
+      "bearerAuth": {
+        "description": "Copy 'Bearer ' + valid JWT token (retrieved by using \"/api/Auth/login\" entrypoint) into the field",
         "type": "apiKey",
-        "name": "Authorization",
-        "in": "header"
+        "in": "header",
+        "name": "Authorization"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
 }

@@ -57,7 +57,7 @@
     "sequelize-cli": "^3.0.0",
     "sqlite3": "^4.0.6",
     "structure": "^1.2.0",
-    "swagger-ui-express": "^2.0.14",
+    "swagger-ui-express": "^4.0.6",
     "tcomb": "^3.2.29"
   },
   "devDependencies": {

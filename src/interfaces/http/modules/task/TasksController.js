@@ -48,7 +48,7 @@ const TasksController = {
       })
       .on(ERROR, next);
 
-    getTask.execute(Number(req.params.id));
+    getTask.execute(req.params.id);
   },
 
   create(req, res, next) {
@@ -96,7 +96,7 @@ const TasksController = {
       })
       .on(ERROR, next);
 
-    updateTask.execute(Number(req.params.id), req.body);
+    updateTask.execute(req.params.id, req.body);
   },
 
   delete(req, res, next) {
@@ -115,7 +115,7 @@ const TasksController = {
       })
       .on(ERROR, next);
 
-    deleteTask.execute(Number(req.params.id));
+    deleteTask.execute(req.params.id);
   },
   order(req, res, next) {
     const { orderTask } = req;

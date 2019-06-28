@@ -79,8 +79,10 @@
             "in": "path",
             "description": "Id of task to show",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "schema": {
+              "$ref": "#/components/schemas/Task"
+            }
           }
         ],
         "responses": {
@@ -115,8 +117,10 @@
             "in": "path",
             "description": "Id of task to update",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "schema": {
+              "$ref": "#/components/schemas/Task"
+            }
           }
         ],
         "requestBody": {
@@ -125,7 +129,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewTask"
+                "$ref": "#/components/schemas/UpdateTask"
               }
             }
           }
@@ -162,8 +166,10 @@
             "in": "path",
             "description": "Id of task to delete",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "schema": {
+              "$ref": "#/components/schemas/Task"
+            }
           }
         ],
         "responses": {
@@ -300,6 +306,20 @@
           },
           "description": {
             "type": "string"
+          }
+        }
+      },
+      "UpdateTask": {
+        "required": ["name"],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
           }
         }
       },

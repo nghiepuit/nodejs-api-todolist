@@ -126,7 +126,7 @@ class SequelizeTasksRepository {
     } catch (error) {
       if (error.name === "SequelizeEmptyResultError") {
         const notFoundError = new Error("NotFoundError");
-        notFoundError.details = `User with id ${id} can't be found.`;
+        notFoundError.details = `Task with id ${id} can't be found.`;
         throw notFoundError;
       }
       throw error;

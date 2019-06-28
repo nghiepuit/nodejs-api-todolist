@@ -36,6 +36,27 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
+      hooks: {
+        /**
+         * Get max order & set order auto increament
+         */
+        beforeCreate: (task, options, cb) => {
+          Task.findOne({
+            attributes: [
+              [sequelize.fn("MAX", sequelize.col("order")), "order"]
+            ],
+            raw: true
+          }).then(data => {
+            if (data && data.order && !isNaN(data.order)) {
+              const max = data.order + 1;
+              task.order = max;
+            } else {
+              task.order = 1;
+            }
+            return cb(null, options);
+          });
+        }
+      },
       classMethods: {
         associate: function(models) {
           // associations can be defined here

@@ -3,7 +3,11 @@ const { attributes } = require("structure");
 const Task = attributes({
   id: String,
   title: String,
-  description: String,
+  description: {
+    type: String,
+    empty: true,
+    nullable: true
+  },
   status: Number,
   order: Number,
   createdAt: Date,

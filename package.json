@@ -28,7 +28,7 @@
   "dependencies": {
     "awilix": "^3.0.9",
     "awilix-express": "^0.11.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.17.1",
     "composable-middleware": "^0.3.0",
     "compression": "^1.6.2",
